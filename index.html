@@ -21,6 +21,9 @@
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     
+    <!-- Google Maps API -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places,geometry"></script>
+    
     <style>
         :root {
             --primary: #0f4c81;
@@ -292,7 +295,7 @@
             position: absolute;
             top: calc(100% + 15px);
             right: 0;
-            width: 400px;
+            width: 450px;
             background-color: white;
             border-radius: 15px;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
@@ -328,7 +331,7 @@
         }
         
         .form-dropdown-body {
-            max-height: 60vh;
+            max-height: 70vh;
             overflow-y: auto;
             padding: 25px;
         }
@@ -453,81 +456,58 @@
             background-color: #e9ecef;
         }
         
-        /* Dropdown สำหรับเลือกภาพ */
-        .dropdown-container {
-            position: relative;
+        /* Map Location Picker in Form */
+        .location-picker-container {
             margin-bottom: 20px;
         }
         
-        .dropdown-header {
+        .location-input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .location-input-group input {
+            flex: 1;
             padding: 12px;
             border: 2px solid #e0e0e0;
             border-radius: 8px;
+            font-family: 'Kanit', sans-serif;
+            font-size: 0.95rem;
+        }
+        
+        .location-input-group button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0 20px;
+            border-radius: 8px;
             cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .location-input-group button:hover {
+            background-color: #0c3d6b;
+        }
+        
+        .location-map-container {
+            height: 250px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 10px;
+            border: 2px solid #e0e0e0;
+        }
+        
+        #location-map {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .coordinates-info {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            transition: var(--transition);
-        }
-        
-        .dropdown-header:hover {
-            border-color: var(--primary);
-        }
-        
-        .dropdown-header.active {
-            border-color: var(--primary);
-            box-shadow: 0 5px 15px rgba(15, 76, 129, 0.1);
-        }
-        
-        .dropdown-options {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: white;
-            border: 1px solid #e0e0e0;
-            border-radius: 0 0 8px 8px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            z-index: 10;
-            display: none;
-            max-height: 200px;
-            overflow-y: auto;
-        }
-        
-        .dropdown-options.active {
-            display: block;
-        }
-        
-        .dropdown-option {
-            padding: 10px 12px;
-            cursor: pointer;
-            transition: var(--transition);
-            font-size: 0.9rem;
-        }
-        
-        .dropdown-option:hover {
-            background-color: rgba(15, 76, 129, 0.05);
-        }
-        
-        .dropdown-option.selected {
-            background-color: rgba(15, 76, 129, 0.1);
-            font-weight: 600;
-            color: var(--primary);
-        }
-        
-        .dropdown-option img {
-            width: 30px;
-            height: 30px;
-            object-fit: cover;
-            border-radius: 4px;
-            margin-right: 8px;
-            vertical-align: middle;
-        }
-        
-        .dropdown-hint {
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             color: var(--gray);
-            margin-top: 5px;
         }
         
         /* Properties Section */
@@ -1117,7 +1097,7 @@
             transform: scale(1.1);
         }
         
-        /* 3D Tour Modal - ENHANCED WITH AI GENERATION */
+        /* 3D Tour Modal - REALISTIC HOUSE STRUCTURE */
         .tour-3d-modal {
             position: fixed;
             top: 0;
@@ -1447,6 +1427,10 @@
                 flex-wrap: wrap;
                 justify-content: center;
             }
+            
+            .location-input-group {
+                flex-direction: column;
+            }
         }
         
         @media (max-width: 576px) {
@@ -1558,6 +1542,75 @@
             font-size: 0.9rem;
             color: #ccc;
         }
+        
+        /* Street View Panorama */
+        .street-view-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        
+        /* 3D Blueprint Viewer */
+        .blueprint-controls {
+            position: absolute;
+            top: 70px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 10;
+        }
+        
+        .blueprint-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+            transition: var(--transition);
+        }
+        
+        .blueprint-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        /* Measurement Tools */
+        .measurement-tools {
+            position: absolute;
+            top: 70px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px;
+            border-radius: 10px;
+            color: white;
+            z-index: 10;
+        }
+        
+        .measurement-tools h4 {
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+        
+        .measurement-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+        
+        .measurement-btn:hover {
+            background: #0c3d6b;
+        }
     </style>
 </head>
 <body>
@@ -1625,11 +1678,23 @@
                                 </div>
                             </div>
                             
-                            <div class="form-row">
-                                <div class="form-group full-width">
-                                    <label for="propertyLocation">สถานที่ *</label>
-                                    <input type="text" id="propertyLocation" placeholder="เช่น สุขุมวิท, กรุงเทพฯ" required>
+                            <div class="location-picker-container">
+                                <label for="propertyAddress">ที่อยู่ *</label>
+                                <div class="location-input-group">
+                                    <input type="text" id="propertyAddress" placeholder="กรอกที่อยู่เพื่อค้นหา" required>
+                                    <button type="button" id="searchAddressBtn">
+                                        <i class="fas fa-search"></i>
+                                    </button>
                                 </div>
+                                <div class="location-map-container">
+                                    <div id="location-map"></div>
+                                </div>
+                                <div class="coordinates-info">
+                                    <span>ละติจูด: <span id="latDisplay">13.7464</span></span>
+                                    <span>ลองจิจูด: <span id="lngDisplay">100.6459</span></span>
+                                </div>
+                                <input type="hidden" id="propertyLat" value="13.7464">
+                                <input type="hidden" id="propertyLng" value="100.6459">
                             </div>
                             
                             <div class="form-row">
@@ -1676,46 +1741,20 @@
                                 <div id="image-preview"></div>
                             </div>
                             
-                            <!-- Dropdown สำหรับเลือกรูปภาพ 360° -->
-                            <div class="dropdown-container" id="panoramaDropdownContainer">
-                                <label>เลือกรูปภาพสำหรับ 360° Viewer (สามารถเลือกได้หลายรูป)</label>
-                                <div class="dropdown-header" id="panoramaDropdownHeader">
-                                    <span id="panoramaSelected">เลือกรูปภาพจากที่อัพโหลด</span>
-                                    <i class="fas fa-chevron-down"></i>
-                                </div>
-                                <div class="dropdown-options" id="panoramaDropdownOptions">
-                                    <!-- Options will be populated dynamically -->
-                                </div>
-                                <p class="dropdown-hint">เลือกรูปภาพที่อัพโหลดเพื่อใช้เป็นภาพสำหรับมุมมอง 360 องศา (แนะนำอย่างน้อย 4 รูป)</p>
-                            </div>
-                            
-                            <!-- Dropdown สำหรับเลือกรูปภาพสำหรับ 3D Tour -->
-                            <div class="dropdown-container" id="tourDropdownContainer">
-                                <label>เลือกรูปภาพสำหรับ 3D Tour AI</label>
-                                <div class="dropdown-header" id="tourDropdownHeader">
-                                    <span id="tourSelected">เลือกรูปภาพจากที่อัพโหลด</span>
-                                    <i class="fas fa-chevron-down"></i>
-                                </div>
-                                <div class="dropdown-options" id="tourDropdownOptions">
-                                    <!-- Options will be populated dynamically -->
-                                </div>
-                                <p class="dropdown-hint">เลือกรูปภาพที่อัพโหลดเพื่อใช้สร้าง 3D Virtual Tour แบบอัตโนมัติด้วย AI</p>
+                            <div class="form-group full-width">
+                                <label for="contactName">ชื่อผู้ติดต่อ *</label>
+                                <input type="text" id="contactName" placeholder="ชื่อ-นามสกุล" required>
                             </div>
                             
                             <div class="form-row">
                                 <div class="form-group">
-                                    <label for="contactName">ชื่อผู้ติดต่อ *</label>
-                                    <input type="text" id="contactName" placeholder="ชื่อ-นามสกุล" required>
-                                </div>
-                                <div class="form-group">
                                     <label for="contactPhone">เบอร์โทรศัพท์ *</label>
                                     <input type="tel" id="contactPhone" placeholder="เช่น 0891234567" required>
                                 </div>
-                            </div>
-                            
-                            <div class="form-group full-width">
-                                <label for="contactEmail">อีเมล</label>
-                                <input type="email" id="contactEmail" placeholder="เช่น example@email.com">
+                                <div class="form-group">
+                                    <label for="contactEmail">อีเมล</label>
+                                    <input type="email" id="contactEmail" placeholder="เช่น example@email.com">
+                                </div>
                             </div>
                             
                             <div class="form-actions">
@@ -1881,7 +1920,7 @@
         </div>
     </div>
 
-    <!-- 360 Viewer Modal - ENHANCED -->
+    <!-- 360 Viewer Modal - ENHANCED WITH STREET VIEW -->
     <div class="viewer-360-modal" id="viewer360Modal">
         <div class="viewer-content">
             <div class="viewer-header">
@@ -1895,34 +1934,12 @@
                 <button class="close-viewer" id="closeViewer">&times;</button>
             </div>
             <div class="viewer-body">
-                <div class="panorama-viewer" id="panoramaViewer">
-                    <div class="panorama-sphere" id="panoramaSphere"></div>
-                </div>
-                <div class="viewer-instruction">
-                    <i class="fas fa-mouse-pointer"></i> ลากเมาส์เพื่อหมุนมุมมอง 360 องศา | <i class="fas fa-arrow-left"></i> <i class="fas fa-arrow-right"></i> กดปุ่มด้านล่างเพื่อเปลี่ยนห้อง
-                </div>
-                <div class="viewer-controls">
-                    <button class="viewer-control-btn" id="panLeft">
-                        <i class="fas fa-arrow-left"></i>
-                    </button>
-                    <button class="viewer-control-btn" id="panRight">
-                        <i class="fas fa-arrow-right"></i>
-                    </button>
-                    <button class="viewer-control-btn" id="panUp">
-                        <i class="fas fa-arrow-up"></i>
-                    </button>
-                    <button class="viewer-control-btn" id="panDown">
-                        <i class="fas fa-arrow-down"></i>
-                    </button>
-                    <button class="viewer-control-btn" id="resetPan">
-                        <i class="fas fa-sync-alt"></i>
-                    </button>
-                </div>
+                <div class="street-view-container" id="streetViewContainer"></div>
             </div>
         </div>
     </div>
 
-    <!-- 3D Tour Modal - ENHANCED WITH AI GENERATION -->
+    <!-- 3D Tour Modal - REALISTIC HOUSE STRUCTURE -->
     <div class="tour-3d-modal" id="tour3dModal">
         <div class="tour-content">
             <div class="tour-header">
@@ -1937,12 +1954,34 @@
                 <button class="close-tour" id="closeTour">&times;</button>
             </div>
             <div id="tour3d-container"></div>
-            <div class="ai-generation-progress" id="aiGenerationProgress">
-                <h4>ระบบ AI กำลังวิเคราะห์รูปภาพและสร้างโมเดล 3D</h4>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progressFill"></div>
-                </div>
-                <p class="progress-text" id="progressText">กำลังวิเคราะห์รูปลักษณะห้อง...</p>
+            <div class="measurement-tools" id="measurementTools">
+                <h4>เครื่องมือวัดระยะ</h4>
+                <button class="measurement-btn" id="measureDistanceBtn">
+                    <i class="fas fa-ruler"></i> วัดระยะ
+                </button>
+                <button class="measurement-btn" id="measureAreaBtn">
+                    <i class="fas fa-vector-square"></i> วัดพื้นที่
+                </button>
+                <button class="measurement-btn" id="clearMeasurementsBtn">
+                    <i class="fas fa-trash"></i> ล้าง
+                </button>
+            </div>
+            <div class="blueprint-controls" id="blueprintControls">
+                <button class="blueprint-btn" id="toggleWallsBtn">
+                    <i class="fas fa-border-style"></i>
+                </button>
+                <button class="blueprint-btn" id="toggleRoofBtn">
+                    <i class="fas fa-house"></i>
+                </button>
+                <button class="blueprint-btn" id="toggleFurnitureBtn">
+                    <i class="fas fa-couch"></i>
+                </button>
+                <button class="blueprint-btn" id="toggleGridBtn">
+                    <i class="fas fa-th"></i>
+                </button>
+                <button class="blueprint-btn" id="toggleDimensionsBtn">
+                    <i class="fas fa-ruler-combined"></i>
+                </button>
             </div>
             <div class="tour-controls">
                 <button class="tour-btn" id="prevRoom">
@@ -2030,6 +2069,7 @@
     <!-- Three.js for 3D Tour -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/utils/SceneUtils.js"></script>
     
     <script>
         // ข้อมูลอสังหาริมทรัพย์เริ่มต้น
@@ -2038,6 +2078,7 @@
                 id: 1,
                 title: "บ้านเดี่ยวหรู สไตล์โมเดิร์น",
                 price: "15,900,000",
+                address: "สุขุมวิท 101, บางนา, กรุงเทพฯ",
                 location: "สุขุมวิท 101, บางนา, กรุงเทพฯ",
                 type: "บ้านเดี่ยว",
                 size: "300 ตร.ม.",
@@ -2050,29 +2091,31 @@
                     "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
                     "https://images.unsplash.com/photo-1600607687644-c7171b42498b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
                 ],
-                panoramas: [
-                    "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
-                    "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
-                    "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
-                    "https://images.unsplash.com/photo-1600607687644-c7171b42498b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
-                ],
-                tourImages: [
-                    "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-                    "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-                    "https://images.unsplash.com/photo-1600607687644-c7171b42498b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-                    "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
-                ],
                 lat: 13.746429,
                 lng: 100.645980,
                 contactName: "สมชาย ใจดี",
                 contactPhone: "0891234567",
                 contactEmail: "somchai@email.com",
-                date: "2023-10-15"
+                date: "2023-10-15",
+                floorPlan: {
+                    width: 12,
+                    length: 15,
+                    floors: 2,
+                    rooms: [
+                        {name: "ห้องนั่งเล่น", area: 35, floor: 1},
+                        {name: "ห้องครัว", area: 20, floor: 1},
+                        {name: "ห้องนอนหลัก", area: 25, floor: 2},
+                        {name: "ห้องนอนเสริม 1", area: 18, floor: 2},
+                        {name: "ห้องนอนเสริม 2", area: 16, floor: 2},
+                        {name: "ห้องน้ำ", area: 8, floor: 2}
+                    ]
+                }
             },
             {
                 id: 2,
                 title: "คอนโดลักซ์ชัวรี่ ใจกลางเมือง",
                 price: "8,500,000",
+                address: "สีลม, สาทร, กรุงเทพฯ",
                 location: "สีลม, สาทร, กรุงเทพฯ",
                 type: "คอนโดมิเนียม",
                 size: "45 ตร.ม.",
@@ -2085,21 +2128,23 @@
                     "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
                     "https://images.unsplash.com/photo-1600573472566-8dfeeae0c8e5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
                 ],
-                panoramas: [
-                    "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
-                    "https://images.unsplash.com/photo-1600573472592-401b489a9bf7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
-                ],
-                tourImages: [
-                    "https://images.unsplash.com/photo-1600573472592-401b489a9bf7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-                    "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-                    "https://images.unsplash.com/photo-1600573472566-8dfeeae0c8e5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
-                ],
                 lat: 13.726560,
                 lng: 100.527430,
                 contactName: "สุณี ทรัพย์สมบัติ",
                 contactPhone: "0897654321",
                 contactEmail: "sunee@email.com",
-                date: "2023-10-10"
+                date: "2023-10-10",
+                floorPlan: {
+                    width: 8,
+                    length: 10,
+                    floors: 1,
+                    rooms: [
+                        {name: "ห้องนั่งเล่น", area: 25, floor: 1},
+                        {name: "ห้องนอน", area: 12, floor: 1},
+                        {name: "ห้องน้ำ", area: 5, floor: 1},
+                        {name: "ระเบียง", area: 3, floor: 1}
+                    ]
+                }
             }
         ];
 
@@ -2118,23 +2163,26 @@
         let walkModeEnabled = false;
         let walkSpeed = 0.1;
         let isGenerating3D = false;
+        let currentProperty3D = null;
+        let wallVisible = true;
+        let roofVisible = true;
+        let furnitureVisible = true;
+        let gridVisible = false;
+        let dimensionsVisible = false;
+        let isMeasuring = false;
+        let measurementPoints = [];
+        let measurementLines = [];
 
-        // 360 Viewer Variables
-        let currentPanoramas = [];
-        let currentPanoramaIndex = 0;
-        let panoramaSphere = null;
-        let isDragging = false;
-        let startX = 0, startY = 0;
-        let currentX = 0, currentY = 0;
-        let rotationX = 0, rotationY = 0;
-        let targetRotationX = 0, targetRotationY = 0;
-        let inertia = 0;
-        let isAnimating = false;
+        // Google Maps Variables
+        let locationMap = null;
+        let locationMarker = null;
+        let streetViewPanorama = null;
+        let geocoder = null;
+        let selectedLat = 13.746429;
+        let selectedLng = 100.645980;
 
-        // Dropdown Variables
+        // Form Variables
         let uploadedImages = [];
-        let selectedPanoramaIndices = [];
-        let selectedTourIndices = [];
 
         // Initialize Everything
         document.addEventListener('DOMContentLoaded', function() {
@@ -2146,6 +2194,12 @@
                 rotationY += 0.2;
                 cube.style.transform = `rotateX(-10deg) rotateY(${rotationY}deg)`;
             }, 50);
+            
+            // Initialize Google Maps
+            initGoogleMaps();
+            
+            // Initialize geocoder
+            geocoder = new google.maps.Geocoder();
             
             // Load properties
             loadProperties();
@@ -2161,10 +2215,93 @@
             
             // Add structured data for SEO
             addStructuredData();
-            
-            // Initialize 360 viewer animation
-            init360ViewerAnimation();
         });
+
+        // Google Maps Functions
+        function initGoogleMaps() {
+            // Initialize location picker map
+            const mapOptions = {
+                center: { lat: selectedLat, lng: selectedLng },
+                zoom: 15,
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
+                streetViewControl: false,
+                fullscreenControl: false,
+                mapTypeControl: true
+            };
+            
+            locationMap = new google.maps.Map(document.getElementById('location-map'), mapOptions);
+            
+            // Add marker
+            locationMarker = new google.maps.Marker({
+                position: { lat: selectedLat, lng: selectedLng },
+                map: locationMap,
+                draggable: true,
+                title: "ตำแหน่งอสังหาริมทรัพย์"
+            });
+            
+            // Update coordinates when marker is dragged
+            google.maps.event.addListener(locationMarker, 'dragend', function() {
+                const position = locationMarker.getPosition();
+                selectedLat = position.lat();
+                selectedLng = position.lng();
+                
+                document.getElementById('latDisplay').textContent = selectedLat.toFixed(6);
+                document.getElementById('lngDisplay').textContent = selectedLng.toFixed(6);
+                document.getElementById('propertyLat').value = selectedLat;
+                document.getElementById('propertyLng').value = selectedLng;
+                
+                // Reverse geocode to get address
+                reverseGeocode(selectedLat, selectedLng);
+            });
+            
+            // Update coordinates when map is clicked
+            google.maps.event.addListener(locationMap, 'click', function(event) {
+                selectedLat = event.latLng.lat();
+                selectedLng = event.latLng.lng();
+                
+                locationMarker.setPosition(event.latLng);
+                
+                document.getElementById('latDisplay').textContent = selectedLat.toFixed(6);
+                document.getElementById('lngDisplay').textContent = selectedLng.toFixed(6);
+                document.getElementById('propertyLat').value = selectedLat;
+                document.getElementById('propertyLng').value = selectedLng;
+                
+                // Reverse geocode to get address
+                reverseGeocode(selectedLat, selectedLng);
+            });
+        }
+        
+        function reverseGeocode(lat, lng) {
+            const latlng = { lat: lat, lng: lng };
+            
+            geocoder.geocode({ 'location': latlng }, function(results, status) {
+                if (status === 'OK') {
+                    if (results[0]) {
+                        document.getElementById('propertyAddress').value = results[0].formatted_address;
+                    }
+                }
+            });
+        }
+        
+        function geocodeAddress(address) {
+            geocoder.geocode({ 'address': address }, function(results, status) {
+                if (status === 'OK') {
+                    const location = results[0].geometry.location;
+                    selectedLat = location.lat();
+                    selectedLng = location.lng();
+                    
+                    locationMap.setCenter(location);
+                    locationMarker.setPosition(location);
+                    
+                    document.getElementById('latDisplay').textContent = selectedLat.toFixed(6);
+                    document.getElementById('lngDisplay').textContent = selectedLng.toFixed(6);
+                    document.getElementById('propertyLat').value = selectedLat;
+                    document.getElementById('propertyLng').value = selectedLng;
+                } else {
+                    alert('ไม่พบที่อยู่ที่ระบุ: ' + status);
+                }
+            });
+        }
 
         // Setup Event Listeners
         function setupEventListeners() {
@@ -2217,6 +2354,25 @@
             document.addEventListener('click', function(e) {
                 if (!e.target.closest('.header-form-dropdown') && !formDropdown.contains(e.target)) {
                     closeFormDropdown();
+                }
+            });
+
+            // Address search button
+            document.getElementById('searchAddressBtn').addEventListener('click', function() {
+                const address = document.getElementById('propertyAddress').value;
+                if (address.trim()) {
+                    geocodeAddress(address);
+                }
+            });
+            
+            // Also search when Enter is pressed in address field
+            document.getElementById('propertyAddress').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    const address = this.value;
+                    if (address.trim()) {
+                        geocodeAddress(address);
+                    }
                 }
             });
 
@@ -2280,7 +2436,6 @@
                     reader.onload = (e) => {
                         uploadedImages.push(e.target.result);
                         updateImagePreview();
-                        updateDropdownOptions();
                     };
                     reader.readAsDataURL(file);
                 }
@@ -2296,22 +2451,15 @@
                     img.addEventListener('click', () => {
                         uploadedImages.splice(index, 1);
                         updateImagePreview();
-                        updateDropdownOptions();
                     });
                     imagePreview.appendChild(img);
                 });
             }
             
-            // Initialize dropdowns
-            initDropdowns();
-            
             // Reset form
             resetFormBtn.addEventListener('click', () => {
                 uploadedImages = [];
-                selectedPanoramaIndices = [];
-                selectedTourIndices = [];
                 updateImagePreview();
-                updateDropdownOptions();
             });
             
             // Handle form submission
@@ -2328,29 +2476,28 @@
                 }
                 
                 // Get form values
+                const address = document.getElementById('propertyAddress').value;
+                
                 const newProperty = {
                     id: Date.now(),
                     title: document.getElementById('propertyTitle').value,
                     type: document.getElementById('propertyType').value,
                     price: formatPrice(document.getElementById('propertyPrice').value),
-                    location: document.getElementById('propertyLocation').value,
+                    address: address,
+                    location: address.split(',').slice(0, 2).join(', '),
                     size: document.getElementById('propertySize').value + ' ตร.ม.',
                     bedrooms: parseInt(document.getElementById('propertyBedrooms').value),
                     bathrooms: parseInt(document.getElementById('propertyBathrooms').value),
                     description: document.getElementById('propertyDescription').value,
                     images: uploadedImages,
-                    panoramas: selectedPanoramaIndices.length > 0 ? 
-                        selectedPanoramaIndices.map(index => uploadedImages[index]) : 
-                        uploadedImages.slice(0, Math.min(uploadedImages.length, 4)),
-                    tourImages: selectedTourIndices.length > 0 ? 
-                        selectedTourIndices.map(index => uploadedImages[index]) : 
-                        uploadedImages,
-                    lat: getRandomLat(),
-                    lng: getRandomLng(),
+                    lat: parseFloat(document.getElementById('propertyLat').value),
+                    lng: parseFloat(document.getElementById('propertyLng').value),
                     contactName: document.getElementById('contactName').value,
                     contactPhone: document.getElementById('contactPhone').value,
                     contactEmail: document.getElementById('contactEmail').value,
-                    date: new Date().toISOString().split('T')[0]
+                    date: new Date().toISOString().split('T')[0],
+                    floorPlan: generateFloorPlan(document.getElementById('propertyType').value, 
+                                                document.getElementById('propertySize').value)
                 };
                 
                 // Add parking spaces based on property type
@@ -2377,10 +2524,17 @@
                 // Reset form
                 propertyForm.reset();
                 uploadedImages = [];
-                selectedPanoramaIndices = [];
-                selectedTourIndices = [];
                 updateImagePreview();
-                updateDropdownOptions();
+                
+                // Reset map position
+                selectedLat = 13.746429;
+                selectedLng = 100.645980;
+                locationMap.setCenter({ lat: selectedLat, lng: selectedLng });
+                locationMarker.setPosition({ lat: selectedLat, lng: selectedLng });
+                document.getElementById('latDisplay').textContent = selectedLat.toFixed(6);
+                document.getElementById('lngDisplay').textContent = selectedLng.toFixed(6);
+                document.getElementById('propertyLat').value = selectedLat;
+                document.getElementById('propertyLng').value = selectedLng;
                 
                 showLoading(false);
                 
@@ -2410,19 +2564,70 @@
                 });
             });
 
-            // 360 Viewer controls
-            document.getElementById('panLeft').addEventListener('click', () => pan360View(-30, 0));
-            document.getElementById('panRight').addEventListener('click', () => pan360View(30, 0));
-            document.getElementById('panUp').addEventListener('click', () => pan360View(0, -30));
-            document.getElementById('panDown').addEventListener('click', () => pan360View(0, 30));
-            document.getElementById('resetPan').addEventListener('click', resetPanorama);
-
             // 3D Tour controls
             document.getElementById('prevRoom').addEventListener('click', () => changeTourRoom(-1));
             document.getElementById('nextRoom').addEventListener('click', () => changeTourRoom(1));
             document.getElementById('resetTour').addEventListener('click', resetTourView);
             document.getElementById('autoRotate').addEventListener('click', toggleAutoRotate);
             document.getElementById('walkMode').addEventListener('click', toggleWalkMode);
+            
+            // Blueprint controls
+            document.getElementById('toggleWallsBtn').addEventListener('click', toggleWalls);
+            document.getElementById('toggleRoofBtn').addEventListener('click', toggleRoof);
+            document.getElementById('toggleFurnitureBtn').addEventListener('click', toggleFurniture);
+            document.getElementById('toggleGridBtn').addEventListener('click', toggleGrid);
+            document.getElementById('toggleDimensionsBtn').addEventListener('click', toggleDimensions);
+            
+            // Measurement tools
+            document.getElementById('measureDistanceBtn').addEventListener('click', startDistanceMeasurement);
+            document.getElementById('measureAreaBtn').addEventListener('click', startAreaMeasurement);
+            document.getElementById('clearMeasurementsBtn').addEventListener('click', clearMeasurements);
+        }
+        
+        function generateFloorPlan(propertyType, size) {
+            const area = parseInt(size) || 100;
+            
+            let width, length, floors, rooms;
+            
+            if (propertyType === 'บ้านเดี่ยว') {
+                width = Math.sqrt(area / 2) * 0.8;
+                length = area / width;
+                floors = 2;
+                rooms = [
+                    {name: "ห้องนั่งเล่น", area: area * 0.2, floor: 1},
+                    {name: "ห้องครัว", area: area * 0.15, floor: 1},
+                    {name: "ห้องอาหาร", area: area * 0.1, floor: 1},
+                    {name: "ห้องนอนหลัก", area: area * 0.15, floor: 2},
+                    {name: "ห้องนอนเสริม 1", area: area * 0.1, floor: 2},
+                    {name: "ห้องนอนเสริม 2", area: area * 0.1, floor: 2},
+                    {name: "ห้องน้ำ", area: area * 0.05, floor: 2}
+                ];
+            } else if (propertyType === 'คอนโดมิเนียม') {
+                width = Math.sqrt(area) * 0.9;
+                length = area / width;
+                floors = 1;
+                rooms = [
+                    {name: "ห้องนั่งเล่น", area: area * 0.4, floor: 1},
+                    {name: "ห้องนอน", area: area * 0.3, floor: 1},
+                    {name: "ห้องน้ำ", area: area * 0.1, floor: 1},
+                    {name: "ห้องครัว", area: area * 0.15, floor: 1},
+                    {name: "ระเบียง", area: area * 0.05, floor: 1}
+                ];
+            } else {
+                width = Math.sqrt(area) * 0.85;
+                length = area / width;
+                floors = 1;
+                rooms = [
+                    {name: "พื้นที่ใช้สอย", area: area, floor: 1}
+                ];
+            }
+            
+            return {
+                width: Math.round(width * 10) / 10,
+                length: Math.round(length * 10) / 10,
+                floors: floors,
+                rooms: rooms
+            };
         }
 
         // Form Dropdown Functions
@@ -2436,175 +2641,6 @@
             const formDropdown = document.getElementById('formDropdown');
             formDropdown.classList.remove('active');
             document.body.style.overflow = 'auto';
-        }
-
-        // Dropdown Functions
-        function initDropdowns() {
-            // Panorama dropdown
-            const panoramaDropdownHeader = document.getElementById('panoramaDropdownHeader');
-            const panoramaDropdownOptions = document.getElementById('panoramaDropdownOptions');
-            
-            panoramaDropdownHeader.addEventListener('click', function() {
-                this.classList.toggle('active');
-                panoramaDropdownOptions.classList.toggle('active');
-            });
-            
-            // Tour dropdown
-            const tourDropdownHeader = document.getElementById('tourDropdownHeader');
-            const tourDropdownOptions = document.getElementById('tourDropdownOptions');
-            
-            tourDropdownHeader.addEventListener('click', function() {
-                this.classList.toggle('active');
-                tourDropdownOptions.classList.toggle('active');
-            });
-            
-            // Close dropdowns when clicking outside
-            document.addEventListener('click', function(e) {
-                if (!e.target.closest('.dropdown-container')) {
-                    document.querySelectorAll('.dropdown-header').forEach(header => {
-                        header.classList.remove('active');
-                    });
-                    document.querySelectorAll('.dropdown-options').forEach(options => {
-                        options.classList.remove('active');
-                    });
-                }
-            });
-        }
-        
-        function updateDropdownOptions() {
-            // Update panorama dropdown
-            const panoramaDropdownOptions = document.getElementById('panoramaDropdownOptions');
-            panoramaDropdownOptions.innerHTML = '';
-            
-            if (uploadedImages.length === 0) {
-                const option = document.createElement('div');
-                option.className = 'dropdown-option';
-                option.textContent = 'ยังไม่มีรูปภาพที่อัพโหลด';
-                panoramaDropdownOptions.appendChild(option);
-                document.getElementById('panoramaSelected').textContent = 'เลือกรูปภาพจากที่อัพโหลด';
-            } else {
-                uploadedImages.forEach((image, index) => {
-                    const isSelected = selectedPanoramaIndices.includes(index);
-                    const option = document.createElement('div');
-                    option.className = `dropdown-option ${isSelected ? 'selected' : ''}`;
-                    option.innerHTML = `
-                        <img src="${image}" alt="รูปภาพที่ ${index + 1}">
-                        รูปภาพที่ ${index + 1}
-                        ${isSelected ? '<i class="fas fa-check" style="float: right; color: var(--primary);"></i>' : ''}
-                    `;
-                    option.addEventListener('click', () => {
-                        if (selectedPanoramaIndices.includes(index)) {
-                            // Remove from selection
-                            selectedPanoramaIndices = selectedPanoramaIndices.filter(i => i !== index);
-                        } else {
-                            // Add to selection
-                            selectedPanoramaIndices.push(index);
-                        }
-                        
-                        // Update selected text
-                        if (selectedPanoramaIndices.length === 0) {
-                            document.getElementById('panoramaSelected').textContent = 'เลือกรูปภาพจากที่อัพโหลด';
-                        } else {
-                            document.getElementById('panoramaSelected').textContent = `เลือกรูปภาพแล้ว ${selectedPanoramaIndices.length} รูป`;
-                        }
-                        
-                        updateDropdownOptions();
-                        document.getElementById('panoramaDropdownHeader').classList.remove('active');
-                        panoramaDropdownOptions.classList.remove('active');
-                    });
-                    panoramaDropdownOptions.appendChild(option);
-                });
-                
-                // Add option to select all
-                const selectAllOption = document.createElement('div');
-                selectAllOption.className = 'dropdown-option';
-                selectAllOption.style.borderTop = '1px solid #eee';
-                selectAllOption.style.marginTop = '10px';
-                selectAllOption.style.paddingTop = '15px';
-                selectAllOption.innerHTML = `
-                    <i class="fas fa-check-double"></i>
-                    เลือกทั้งหมด
-                `;
-                selectAllOption.addEventListener('click', () => {
-                    selectedPanoramaIndices = [...Array(uploadedImages.length).keys()];
-                    document.getElementById('panoramaSelected').textContent = `เลือกรูปภาพแล้ว ${selectedPanoramaIndices.length} รูป`;
-                    updateDropdownOptions();
-                    document.getElementById('panoramaDropdownHeader').classList.remove('active');
-                    panoramaDropdownOptions.classList.remove('active');
-                });
-                panoramaDropdownOptions.appendChild(selectAllOption);
-                
-                if (selectedPanoramaIndices.length === 0) {
-                    document.getElementById('panoramaSelected').textContent = 'เลือกรูปภาพจากที่อัพโหลด';
-                }
-            }
-            
-            // Update tour dropdown
-            const tourDropdownOptions = document.getElementById('tourDropdownOptions');
-            tourDropdownOptions.innerHTML = '';
-            
-            if (uploadedImages.length === 0) {
-                const option = document.createElement('div');
-                option.className = 'dropdown-option';
-                option.textContent = 'ยังไม่มีรูปภาพที่อัพโหลด';
-                tourDropdownOptions.appendChild(option);
-                document.getElementById('tourSelected').textContent = 'เลือกรูปภาพจากที่อัพโหลด';
-            } else {
-                uploadedImages.forEach((image, index) => {
-                    const isSelected = selectedTourIndices.includes(index);
-                    const option = document.createElement('div');
-                    option.className = `dropdown-option ${isSelected ? 'selected' : ''}`;
-                    option.innerHTML = `
-                        <img src="${image}" alt="รูปภาพที่ ${index + 1}">
-                        รูปภาพที่ ${index + 1}
-                        ${isSelected ? '<i class="fas fa-check" style="float: right; color: var(--primary);"></i>' : ''}
-                    `;
-                    option.addEventListener('click', () => {
-                        if (selectedTourIndices.includes(index)) {
-                            // Remove from selection
-                            selectedTourIndices = selectedTourIndices.filter(i => i !== index);
-                        } else {
-                            // Add to selection
-                            selectedTourIndices.push(index);
-                        }
-                        
-                        // Update selected text
-                        if (selectedTourIndices.length === 0) {
-                            document.getElementById('tourSelected').textContent = 'เลือกรูปภาพจากที่อัพโหลด';
-                        } else {
-                            document.getElementById('tourSelected').textContent = `เลือกรูปภาพแล้ว ${selectedTourIndices.length} รูป`;
-                        }
-                        
-                        updateDropdownOptions();
-                        document.getElementById('tourDropdownHeader').classList.remove('active');
-                        tourDropdownOptions.classList.remove('active');
-                    });
-                    tourDropdownOptions.appendChild(option);
-                });
-                
-                // Add option to select all
-                const selectAllOption = document.createElement('div');
-                selectAllOption.className = 'dropdown-option';
-                selectAllOption.style.borderTop = '1px solid #eee';
-                selectAllOption.style.marginTop = '10px';
-                selectAllOption.style.paddingTop = '15px';
-                selectAllOption.innerHTML = `
-                    <i class="fas fa-check-double"></i>
-                    เลือกทั้งหมด
-                `;
-                selectAllOption.addEventListener('click', () => {
-                    selectedTourIndices = [...Array(uploadedImages.length).keys()];
-                    document.getElementById('tourSelected').textContent = `เลือกรูปภาพแล้ว ${selectedTourIndices.length} รูป`;
-                    updateDropdownOptions();
-                    document.getElementById('tourDropdownHeader').classList.remove('active');
-                    tourDropdownOptions.classList.remove('active');
-                });
-                tourDropdownOptions.appendChild(selectAllOption);
-                
-                if (selectedTourIndices.length === 0) {
-                    document.getElementById('tourSelected').textContent = 'เลือกรูปภาพจากที่อัพโหลด';
-                }
-            }
         }
 
         // Property Management Functions
@@ -2630,8 +2666,8 @@
                 });
                 
                 // Determine available features
-                const has360 = property.panoramas && property.panoramas.length > 0;
-                const has3DTour = property.tourImages && property.tourImages.length > 0;
+                const has360 = true; // Always available with Google Street View
+                const has3DTour = property.floorPlan !== undefined;
                 
                 propertyCard.innerHTML = `
                     <div class="property-image-slider">
@@ -2689,7 +2725,7 @@
                             </button>
                             ${has360 ? `
                             <button class="btn btn-accent" onclick="open360Viewer(${property.id})">
-                                <i class="fas fa-360-degrees"></i> 360° (${property.panoramas.length} ห้อง)
+                                <i class="fas fa-360-degrees"></i> สตรีทวิว
                             </button>
                             ` : ''}
                             ${has3DTour ? `
@@ -2783,7 +2819,7 @@
             // Update modal content
             document.getElementById('modalTitle').textContent = currentProperty.title;
             document.getElementById('modalPrice').textContent = currentProperty.price + ' บาท';
-            document.getElementById('modalLocation').textContent = currentProperty.location;
+            document.getElementById('modalLocation').textContent = currentProperty.address;
             document.getElementById('modalDescription').textContent = currentProperty.description;
             
             // Update modal images
@@ -2859,9 +2895,9 @@
                 }, 300);
             };
             
-            // Show/hide 360 and 3D buttons based on availability
-            document.getElementById('view360Btn').style.display = currentProperty.panoramas && currentProperty.panoramas.length > 0 ? 'flex' : 'none';
-            document.getElementById('view3dBtn').style.display = currentProperty.tourImages && currentProperty.tourImages.length > 0 ? 'flex' : 'none';
+            // Show/hide 360 and 3D buttons
+            document.getElementById('view360Btn').style.display = 'flex';
+            document.getElementById('view3dBtn').style.display = currentProperty.floorPlan ? 'flex' : 'none';
             
             // Initialize modal map
             const modalMapContainer = document.getElementById('modalMapContainer');
@@ -2872,15 +2908,22 @@
                     modalMap.remove();
                 }
                 
-                modalMap = L.map('modal-map').setView([currentProperty.lat, currentProperty.lng], 15);
+                const modalMapOptions = {
+                    center: { lat: currentProperty.lat, lng: currentProperty.lng },
+                    zoom: 15,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP,
+                    streetViewControl: true,
+                    fullscreenControl: true,
+                    mapTypeControl: true
+                };
                 
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                }).addTo(modalMap);
+                modalMap = new google.maps.Map(document.getElementById('modal-map'), modalMapOptions);
                 
-                L.marker([currentProperty.lat, currentProperty.lng]).addTo(modalMap)
-                    .bindPopup(`<b>${currentProperty.title}</b><br>${currentProperty.location}`)
-                    .openPopup();
+                new google.maps.Marker({
+                    position: { lat: currentProperty.lat, lng: currentProperty.lng },
+                    map: modalMap,
+                    title: currentProperty.title
+                });
                 
                 showLoading(false);
                 
@@ -2910,216 +2953,93 @@
             document.body.style.overflow = 'auto';
             
             if (modalMap) {
-                modalMap.remove();
                 modalMap = null;
             }
         }
 
-        // 360 Viewer - ENHANCED MULTI-ROOM VERSION
-        function init360ViewerAnimation() {
-            // Animation loop for smooth 360 rotation
-            function animate360Viewer() {
-                if (!isAnimating) {
-                    requestAnimationFrame(animate360Viewer);
-                    return;
-                }
-                
-                // Smoothly interpolate to target rotation
-                rotationX += (targetRotationX - rotationX) * 0.1;
-                rotationY += (targetRotationY - rotationY) * 0.1;
-                
-                // Apply rotation to panorama sphere
-                if (panoramaSphere) {
-                    panoramaSphere.style.transform = `rotateX(${rotationX}deg) rotateY(${rotationY}deg)`;
-                }
-                
-                // Apply inertia
-                if (inertia > 0) {
-                    targetRotationY += inertia;
-                    inertia *= 0.95; // Gradually reduce inertia
-                    if (inertia < 0.01) inertia = 0;
-                }
-                
-                requestAnimationFrame(animate360Viewer);
-            }
-            
-            animate360Viewer();
-        }
-        
+        // 360 Viewer - GOOGLE STREET VIEW
         function open360Viewer(propertyId) {
             showLoading(true);
             
             const property = allProperties.find(p => p.id === propertyId);
-            if (!property || !property.panoramas || property.panoramas.length === 0) {
-                alert('อสังหาริมทรัพย์นี้ไม่มีภาพ 360°');
+            if (!property) {
                 showLoading(false);
+                alert('ไม่พบข้อมูลอสังหาริมทรัพย์');
                 return;
             }
             
-            currentPanoramas = property.panoramas;
-            currentPanoramaIndex = 0;
-            
             // Update UI
-            document.getElementById('viewer360Title').textContent = `${property.title} - มุมมอง 360°`;
+            document.getElementById('viewer360Title').textContent = `${property.title} - มุมมองสตรีทวิว`;
             
-            // Create room selector buttons
-            const roomSelector = document.getElementById('viewerRoomSelector');
-            roomSelector.innerHTML = '';
-            
-            currentPanoramas.forEach((_, index) => {
-                const roomBtn = document.createElement('button');
-                roomBtn.className = `room-btn ${index === 0 ? 'active' : ''}`;
-                roomBtn.textContent = `ห้อง ${index + 1}`;
-                roomBtn.onclick = () => switchPanoramaRoom(index);
-                roomSelector.appendChild(roomBtn);
-            });
-            
-            // Load first panorama
-            loadPanoramaImage(currentPanoramaIndex);
-            
-            // Reset position
-            rotationX = 0;
-            rotationY = 0;
-            targetRotationX = 0;
-            targetRotationY = 0;
-            inertia = 0;
-            
-            // Start animation
-            isAnimating = true;
+            // Clear previous street view
+            const streetViewContainer = document.getElementById('streetViewContainer');
+            streetViewContainer.innerHTML = '';
             
             showLoading(false);
             
             document.getElementById('viewer360Modal').classList.add('active');
             document.body.style.overflow = 'hidden';
             
-            // Setup mouse/touch events
-            setup360ViewerEvents();
+            // Initialize street view after a short delay
+            setTimeout(() => {
+                initializeStreetView(property.lat, property.lng);
+            }, 300);
         }
         
-        function loadPanoramaImage(index) {
-            panoramaSphere = document.getElementById('panoramaSphere');
-            panoramaSphere.style.backgroundImage = `url('${currentPanoramas[index]}')`;
+        function initializeStreetView(lat, lng) {
+            const panoramaOptions = {
+                position: { lat: lat, lng: lng },
+                pov: { heading: 165, pitch: 0 },
+                zoom: 1,
+                addressControl: true,
+                linksControl: true,
+                panControl: true,
+                enableCloseButton: false,
+                showRoadLabels: true,
+                fullscreenControl: false
+            };
             
-            // Update active room button
-            const roomButtons = document.querySelectorAll('.room-btn');
-            roomButtons.forEach((btn, i) => {
-                if (i === index) {
-                    btn.classList.add('active');
-                } else {
-                    btn.classList.remove('active');
+            streetViewPanorama = new google.maps.StreetViewPanorama(
+                document.getElementById('streetViewContainer'),
+                panoramaOptions
+            );
+            
+            // Check if street view is available
+            const streetViewService = new google.maps.StreetViewService();
+            streetViewService.getPanorama(
+                { location: { lat: lat, lng: lng }, radius: 50 },
+                function(data, status) {
+                    if (status === 'OK') {
+                        // Street view is available
+                        streetViewPanorama.setPano(data.location.pano);
+                    } else {
+                        // Street view not available, show message
+                        const streetViewContainer = document.getElementById('streetViewContainer');
+                        streetViewContainer.innerHTML = `
+                            <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: white; text-align: center; padding: 20px;">
+                                <i class="fas fa-map-marked-alt" style="font-size: 3rem; margin-bottom: 20px; color: #ccc;"></i>
+                                <h3>ไม่มีสตรีทวิวสำหรับตำแหน่งนี้</h3>
+                                <p>ตำแหน่ง: ${lat.toFixed(6)}, ${lng.toFixed(6)}</p>
+                                <p style="margin-top: 20px; font-size: 0.9rem; color: #aaa;">
+                                    Google Street View ไม่ครอบคลุมตำแหน่งนี้ในขณะนี้
+                                </p>
+                            </div>
+                        `;
+                    }
                 }
-            });
-        }
-        
-        function switchPanoramaRoom(index) {
-            if (index < 0 || index >= currentPanoramas.length) return;
-            
-            currentPanoramaIndex = index;
-            loadPanoramaImage(index);
-            
-            // Reset rotation for new room
-            rotationX = 0;
-            rotationY = 0;
-            targetRotationX = 0;
-            targetRotationY = 0;
-            inertia = 0;
-        }
-        
-        function setup360ViewerEvents() {
-            const panoramaViewer = document.getElementById('panoramaViewer');
-            
-            // Mouse events
-            panoramaViewer.addEventListener('mousedown', (e) => {
-                isDragging = true;
-                startX = e.clientX;
-                startY = e.clientY;
-                panoramaViewer.style.cursor = 'grabbing';
-                inertia = 0; // Reset inertia when user starts dragging
-            });
-            
-            document.addEventListener('mousemove', (e) => {
-                if (!isDragging) return;
-                
-                currentX = e.clientX;
-                currentY = e.clientY;
-                
-                const deltaX = currentX - startX;
-                const deltaY = currentY - startY;
-                
-                // Update target rotation based on mouse movement
-                targetRotationY += deltaX * 0.3;
-                targetRotationX += deltaY * 0.3;
-                
-                // Store inertia for smooth continuation
-                inertia = deltaX * 0.05;
-                
-                startX = currentX;
-                startY = currentY;
-            });
-            
-            document.addEventListener('mouseup', () => {
-                isDragging = false;
-                panoramaViewer.style.cursor = 'grab';
-            });
-            
-            // Touch events for mobile
-            panoramaViewer.addEventListener('touchstart', (e) => {
-                isDragging = true;
-                startX = e.touches[0].clientX;
-                startY = e.touches[0].clientY;
-                inertia = 0;
-                e.preventDefault();
-            });
-            
-            panoramaViewer.addEventListener('touchmove', (e) => {
-                if (!isDragging) return;
-                
-                currentX = e.touches[0].clientX;
-                currentY = e.touches[0].clientY;
-                
-                const deltaX = currentX - startX;
-                const deltaY = currentY - startY;
-                
-                targetRotationY += deltaX * 0.3;
-                targetRotationX += deltaY * 0.3;
-                
-                inertia = deltaX * 0.05;
-                
-                startX = currentX;
-                startY = currentY;
-                e.preventDefault();
-            });
-            
-            panoramaViewer.addEventListener('touchend', () => {
-                isDragging = false;
-            });
-        }
-        
-        function pan360View(deltaX, deltaY) {
-            targetRotationY += deltaX;
-            targetRotationX += deltaY;
-        }
-        
-        function resetPanorama() {
-            targetRotationX = 0;
-            targetRotationY = 0;
-            inertia = 0;
+            );
         }
         
         function close360Viewer() {
             document.getElementById('viewer360Modal').classList.remove('active');
             document.body.style.overflow = 'auto';
-            isAnimating = false;
             
-            // Clean up event listeners
-            const panoramaViewer = document.getElementById('panoramaViewer');
-            panoramaViewer.style.cursor = 'grab';
+            if (streetViewPanorama) {
+                streetViewPanorama = null;
+            }
         }
 
-        // 3D Tour System - ENHANCED WITH AI GENERATION
-        let aiGeneratedModels = [];
-        let currentRoomModel = null;
-        
+        // 3D Tour System - REALISTIC HOUSE STRUCTURE
         function init3DTourSystem() {
             // Scene setup will be done when opening tour
         }
@@ -3128,22 +3048,17 @@
             showLoading(true);
             
             const property = allProperties.find(p => p.id === propertyId);
-            if (!property || !property.tourImages || property.tourImages.length === 0) {
-                alert('อสังหาริมทรัพย์นี้ไม่มีรูปภาพสำหรับสร้าง 3D Tour');
+            if (!property || !property.floorPlan) {
                 showLoading(false);
+                alert('อสังหาริมทรัพย์นี้ไม่มีข้อมูลสำหรับสร้าง 3D Tour');
                 return;
             }
             
+            currentProperty3D = property;
             document.getElementById('tourTitle').textContent = `${property.title} - 3D Virtual Tour`;
-            tourImages = property.tourImages;
-            tourCurrentRoom = 0;
             
-            // Show AI generation progress
-            document.getElementById('aiGenerationProgress').style.display = 'block';
-            document.getElementById('aiStatus').innerHTML = '<i class="fas fa-robot"></i><span>AI กำลังสร้างโมเดล...</span>';
-            
-            // Start AI generation process
-            generate3DModelsFromImages(property.tourImages, property.type);
+            // Initialize 3D scene
+            init3DScene(property.floorPlan, property.type);
             
             document.getElementById('tour3dModal').classList.add('active');
             document.body.style.overflow = 'hidden';
@@ -3151,193 +3066,26 @@
             showLoading(false);
         }
         
-        function generate3DModelsFromImages(images, propertyType) {
-            isGenerating3D = true;
-            aiGeneratedModels = [];
-            
-            // Simulate AI processing with progress updates
-            let progress = 0;
-            const progressInterval = setInterval(() => {
-                progress += 10;
-                document.getElementById('progressFill').style.width = `${progress}%`;
-                
-                if (progress <= 30) {
-                    document.getElementById('progressText').textContent = 'กำลังวิเคราะห์รูปลักษณะห้อง...';
-                } else if (progress <= 60) {
-                    document.getElementById('progressText').textContent = 'กำลังสร้างโมเดล 3D...';
-                } else if (progress <= 90) {
-                    document.getElementById('progressText').textContent = 'กำลังเพิ่มเฟอร์นิเจอร์และรายละเอียด...';
-                } else {
-                    document.getElementById('progressText').textContent = 'กำลังเรนเดอร์ฉากสุดท้าย...';
-                }
-                
-                if (progress >= 100) {
-                    clearInterval(progressInterval);
-                    
-                    // Generate 3D models based on images
-                    images.forEach((image, index) => {
-                        const model = create3DModelFromImage(image, index, propertyType);
-                        aiGeneratedModels.push(model);
-                    });
-                    
-                    // Hide progress and show scene
-                    document.getElementById('aiGenerationProgress').style.display = 'none';
-                    document.getElementById('aiStatus').innerHTML = '<i class="fas fa-check-circle"></i><span>สร้างโมเดลสำเร็จแล้ว!</span>';
-                    
-                    isGenerating3D = false;
-                    
-                    // Initialize 3D scene with first room
-                    init3DScene();
-                    loadGeneratedRoom(tourCurrentRoom);
-                }
-            }, 300);
-        }
-        
-        function create3DModelFromImage(imageUrl, roomIndex, propertyType) {
-            // This is a simplified simulation of AI-based 3D model generation
-            // In a real application, this would use ML to analyze the image and generate a 3D model
-            
-            const model = {
-                roomType: determineRoomType(roomIndex, propertyType),
-                walls: generateWalls(propertyType),
-                floor: generateFloor(propertyType),
-                ceiling: generateCeiling(),
-                furniture: generateFurniture(roomIndex, propertyType),
-                lighting: generateLighting(),
-                textures: generateTextures(imageUrl)
-            };
-            
-            return model;
-        }
-        
-        function determineRoomType(roomIndex, propertyType) {
-            const roomTypes = {
-                'บ้านเดี่ยว': ['ห้องนั่งเล่น', 'ห้องครัว', 'ห้องนอนหลัก', 'ห้องนอนเสริม', 'ห้องน้ำ', 'ระเบียง'],
-                'คอนโดมิเนียม': ['ห้องนั่งเล่น', 'ห้องครัว', 'ห้องนอน', 'ห้องน้ำ', 'ระเบียง'],
-                'ทาวน์เฮ้าส์': ['ห้องนั่งเล่น', 'ห้องครัว', 'ห้องนอน', 'ห้องน้ำ', 'ชั้นลอย'],
-                'ที่ดิน': ['พื้นที่สวน', 'พื้นที่ก่อสร้าง', 'ทางเดิน'],
-                'อาคารพาณิชย์': ['พื้นที่ขาย', 'สำนักงาน', 'โกดัง', 'ห้องประชุม']
-            };
-            
-            const types = roomTypes[propertyType] || ['ห้องทั่วไป'];
-            return types[roomIndex % types.length];
-        }
-        
-        function generateWalls(propertyType) {
-            // Generate walls based on property type
-            const wallConfigs = {
-                'บ้านเดี่ยว': { height: 4, thickness: 0.2, color: 0xf5f5dc },
-                'คอนโดมิเนียม': { height: 3, thickness: 0.15, color: 0xffffff },
-                'ทาวน์เฮ้าส์': { height: 3.5, thickness: 0.18, color: 0xf0f0f0 },
-                'อาคารพาณิชย์': { height: 4.5, thickness: 0.25, color: 0xe8e8e8 }
-            };
-            
-            const config = wallConfigs[propertyType] || { height: 3, thickness: 0.2, color: 0xffffff };
-            
-            return {
-                dimensions: { width: 8, height: config.height, depth: 10 },
-                material: { color: config.color, roughness: 0.7 },
-                windows: Math.random() > 0.3,
-                doors: Math.random() > 0.5
-            };
-        }
-        
-        function generateFloor(propertyType) {
-            const floorTypes = {
-                'บ้านเดี่ยว': { material: 'wood', color: 0x8B4513 },
-                'คอนโดมิเนียม': { material: 'laminate', color: 0xd3d3d3 },
-                'ทาวน์เฮ้าส์': { material: 'tile', color: 0xc0c0c0 },
-                'อาคารพาณิชย์': { material: 'concrete', color: 0x808080 }
-            };
-            
-            const type = floorTypes[propertyType] || { material: 'generic', color: 0x888888 };
-            
-            return {
-                material: type.material,
-                color: type.color,
-                texture: 'checkerboard',
-                size: { width: 10, height: 10 }
-            };
-        }
-        
-        function generateCeiling() {
-            return {
-                height: 3.5,
-                material: { color: 0xffffff, roughness: 0.9 },
-                hasLights: true,
-                lightType: 'recessed'
-            };
-        }
-        
-        function generateFurniture(roomIndex, propertyType) {
-            const furnitureSets = {
-                'ห้องนั่งเล่น': [
-                    { type: 'sofa', position: { x: -2, y: 0, z: -2 }, color: 0x8B4513 },
-                    { type: 'coffee_table', position: { x: 0, y: 0, z: 0 }, color: 0x8B4513 },
-                    { type: 'tv_unit', position: { x: 3, y: 1, z: -4 }, color: 0x222222 },
-                    { type: 'armchair', position: { x: 2, y: 0, z: 1 }, color: 0x4169E1 }
-                ],
-                'ห้องครัว': [
-                    { type: 'kitchen_cabinet', position: { x: 0, y: 1.5, z: -4 }, color: 0xf5f5dc },
-                    { type: 'dining_table', position: { x: 0, y: 0, z: 0 }, color: 0x8B4513 },
-                    { type: 'stove', position: { x: -2, y: 1, z: -4 }, color: 0x444444 },
-                    { type: 'refrigerator', position: { x: 2, y: 1.8, z: -4 }, color: 0xffffff }
-                ],
-                'ห้องนอน': [
-                    { type: 'bed', position: { x: 0, y: 0, z: -2 }, color: 0x4169E1 },
-                    { type: 'nightstand', position: { x: 2, y: 0, z: -2 }, color: 0x8B4513 },
-                    { type: 'wardrobe', position: { x: 3, y: 1.5, z: 1 }, color: 0x8B4513 },
-                    { type: 'dressing_table', position: { x: -2, y: 0.8, z: 1 }, color: 0x8B4513 }
-                ],
-                'ห้องน้ำ': [
-                    { type: 'toilet', position: { x: 1, y: 0, z: -3 }, color: 0xffffff },
-                    { type: 'sink', position: { x: -1, y: 1, z: -3 }, color: 0xffffff },
-                    { type: 'shower', position: { x: -2, y: 0, z: 1 }, color: 0xffffff },
-                    { type: 'mirror', position: { x: -1, y: 1.5, z: -3.9 }, color: 0x888888 }
-                ]
-            };
-            
-            const roomType = determineRoomType(roomIndex, propertyType);
-            return furnitureSets[roomType] || [
-                { type: 'generic_furniture', position: { x: 0, y: 0, z: 0 }, color: 0x888888 }
-            ];
-        }
-        
-        function generateLighting() {
-            return {
-                ambient: { intensity: 0.6, color: 0xffffff },
-                directional: { intensity: 0.8, position: { x: 10, y: 20, z: 15 } },
-                pointLights: [
-                    { position: { x: 0, y: 3, z: 0 }, intensity: 0.5 }
-                ]
-            };
-        }
-        
-        function generateTextures(imageUrl) {
-            // Simulate texture extraction from image
-            return {
-                wallTexture: imageUrl,
-                floorTexture: null,
-                ceilingTexture: null
-            };
-        }
-        
-        function init3DScene() {
+        function init3DScene(floorPlan, propertyType) {
             // Remove existing renderer if any
             const container = document.getElementById('tour3d-container');
             container.innerHTML = '';
             
             // Create scene
             tourScene = new THREE.Scene();
+            tourScene.background = new THREE.Color(0x1a1a1a);
             
             // Create camera
-            tourCamera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
-            tourCamera.position.set(0, 2, 5);
+            const aspect = container.clientWidth / container.clientHeight;
+            tourCamera = new THREE.PerspectiveCamera(60, aspect, 0.1, 1000);
+            tourCamera.position.set(floorPlan.width * 0.8, floorPlan.floors * 3, floorPlan.length * 0.8);
             
             // Create renderer
             tourRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
             tourRenderer.setSize(container.clientWidth, container.clientHeight);
-            tourRenderer.setClearColor(0x1a1a1a, 1);
+            tourRenderer.setPixelRatio(window.devicePixelRatio);
+            tourRenderer.shadowMap.enabled = true;
+            tourRenderer.shadowMap.type = THREE.PCFSoftShadowMap;
             container.appendChild(tourRenderer.domElement);
             
             // Add controls
@@ -3349,207 +3097,401 @@
             tourControls.autoRotate = false;
             tourControls.maxPolarAngle = Math.PI / 2;
             tourControls.minDistance = 1;
-            tourControls.maxDistance = 10;
+            tourControls.maxDistance = 50;
+            
+            // Add lighting
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+            tourScene.add(ambientLight);
+            
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            directionalLight.position.set(10, 20, 15);
+            directionalLight.castShadow = true;
+            directionalLight.shadow.camera.left = -20;
+            directionalLight.shadow.camera.right = 20;
+            directionalLight.shadow.camera.top = 20;
+            directionalLight.shadow.camera.bottom = -20;
+            tourScene.add(directionalLight);
+            
+            // Create house structure
+            createHouseStructure(floorPlan, propertyType);
+            
+            // Add grid
+            createGrid(floorPlan.width, floorPlan.length);
             
             // Start animation
             animateTour();
+            
+            // Handle window resize
+            window.addEventListener('resize', onTourWindowResize);
         }
         
-        function loadGeneratedRoom(roomIndex) {
-            if (!aiGeneratedModels || aiGeneratedModels.length === 0) return;
+        function createHouseStructure(floorPlan, propertyType) {
+            // Clear previous objects
+            const objectsToRemove = [];
+            tourScene.traverse(function(child) {
+                if (child.userData && child.userData.type === 'housePart') {
+                    objectsToRemove.push(child);
+                }
+            });
+            objectsToRemove.forEach(obj => tourScene.remove(obj));
             
-            if (roomIndex < 0) roomIndex = aiGeneratedModels.length - 1;
-            if (roomIndex >= aiGeneratedModels.length) roomIndex = 0;
+            // Create foundation
+            const foundationGeometry = new THREE.BoxGeometry(floorPlan.width, 0.5, floorPlan.length);
+            const foundationMaterial = new THREE.MeshStandardMaterial({ 
+                color: 0x8B4513,
+                roughness: 0.9,
+                metalness: 0.1
+            });
+            const foundation = new THREE.Mesh(foundationGeometry, foundationMaterial);
+            foundation.position.y = -0.25;
+            foundation.castShadow = true;
+            foundation.receiveShadow = true;
+            foundation.userData = { type: 'housePart', part: 'foundation' };
+            tourScene.add(foundation);
             
-            const model = aiGeneratedModels[roomIndex];
-            
-            // Clear previous room
-            while(tourScene.children.length > 0) {
-                tourScene.remove(tourScene.children[0]);
+            // Create floors
+            for (let floor = 0; floor < floorPlan.floors; floor++) {
+                // Floor slab
+                const floorGeometry = new THREE.BoxGeometry(floorPlan.width, 0.2, floorPlan.length);
+                const floorMaterial = new THREE.MeshStandardMaterial({ 
+                    color: propertyType === 'คอนโดมิเนียม' ? 0xD3D3D3 : 0x8B4513,
+                    roughness: 0.8,
+                    metalness: 0.1
+                });
+                const floorSlab = new THREE.Mesh(floorGeometry, floorMaterial);
+                floorSlab.position.y = floor * 3;
+                floorSlab.castShadow = true;
+                floorSlab.receiveShadow = true;
+                floorSlab.userData = { type: 'housePart', part: 'floor', floor: floor };
+                tourScene.add(floorSlab);
+                
+                // Create walls for this floor
+                createWalls(floorPlan, floor);
+                
+                // Create rooms for this floor
+                const floorRooms = floorPlan.rooms.filter(room => room.floor === floor + 1);
+                createRooms(floorRooms, floorPlan, floor);
             }
             
-            // Add lighting
-            const ambientLight = new THREE.AmbientLight(model.lighting.ambient.color, model.lighting.ambient.intensity);
-            tourScene.add(ambientLight);
-            
-            const directionalLight = new THREE.DirectionalLight(0xffffff, model.lighting.directional.intensity);
-            directionalLight.position.set(
-                model.lighting.directional.position.x,
-                model.lighting.directional.position.y,
-                model.lighting.directional.position.z
-            );
-            tourScene.add(directionalLight);
-            
-            // Add point lights
-            model.lighting.pointLights.forEach(lightConfig => {
-                const pointLight = new THREE.PointLight(0xffffff, lightConfig.intensity, 10);
-                pointLight.position.set(lightConfig.position.x, lightConfig.position.y, lightConfig.position.z);
-                tourScene.add(pointLight);
-            });
-            
-            // Create floor
-            const floorGeometry = new THREE.PlaneGeometry(model.floor.size.width, model.floor.size.height);
-            const floorMaterial = new THREE.MeshStandardMaterial({ 
-                color: model.floor.color,
-                roughness: 0.8
-            });
-            const floor = new THREE.Mesh(floorGeometry, floorMaterial);
-            floor.rotation.x = -Math.PI / 2;
-            floor.position.y = -0.5;
-            tourScene.add(floor);
-            
-            // Create walls
-            const wallGeometry = new THREE.BoxGeometry(
-                model.walls.dimensions.width, 
-                model.walls.dimensions.height, 
-                model.walls.thickness
-            );
-            const wallMaterial = new THREE.MeshStandardMaterial({ 
-                color: model.walls.material.color,
-                roughness: model.walls.material.roughness
-            });
-            
-            // Create four walls
-            const wallPositions = [
-                { x: 0, y: model.walls.dimensions.height/2, z: -model.walls.dimensions.depth/2 }, // Back
-                { x: 0, y: model.walls.dimensions.height/2, z: model.walls.dimensions.depth/2 }, // Front
-                { x: -model.walls.dimensions.width/2, y: model.walls.dimensions.height/2, z: 0, rotation: { y: Math.PI/2 } }, // Left
-                { x: model.walls.dimensions.width/2, y: model.walls.dimensions.height/2, z: 0, rotation: { y: Math.PI/2 } } // Right
-            ];
-            
-            wallPositions.forEach((pos, index) => {
-                const wall = new THREE.Mesh(wallGeometry, wallMaterial);
-                wall.position.set(pos.x, pos.y, pos.z);
-                if (pos.rotation) {
-                    wall.rotation.y = pos.rotation.y;
-                }
-                
-                // Add windows or doors randomly
-                if ((index === 0 || index === 2) && model.walls.windows && Math.random() > 0.5) {
-                    // Create a window opening (simplified)
-                    const windowGeometry = new THREE.BoxGeometry(1.5, 1, 0.1);
-                    const windowMaterial = new THREE.MeshBasicMaterial({ color: 0x87CEEB, transparent: true, opacity: 0.7 });
-                    const window = new THREE.Mesh(windowGeometry, windowMaterial);
-                    window.position.set(pos.x, pos.y - 0.5, pos.z + (pos.z < 0 ? -0.05 : 0.05));
-                    if (pos.rotation) window.rotation.y = pos.rotation.y;
-                    tourScene.add(window);
-                }
-                
-                tourScene.add(wall);
-            });
-            
-            // Create ceiling
-            const ceilingGeometry = new THREE.PlaneGeometry(model.walls.dimensions.width, model.walls.dimensions.depth);
-            const ceilingMaterial = new THREE.MeshStandardMaterial({ 
-                color: model.ceiling.material.color,
-                roughness: model.ceiling.material.roughness
-            });
-            const ceiling = new THREE.Mesh(ceilingGeometry, ceilingMaterial);
-            ceiling.rotation.x = Math.PI / 2;
-            ceiling.position.y = model.ceiling.height;
-            tourScene.add(ceiling);
-            
-            // Add ceiling lights if configured
-            if (model.ceiling.hasLights) {
-                const lightGeometry = new THREE.CylinderGeometry(0.1, 0.15, 0.1, 8);
-                const lightMaterial = new THREE.MeshBasicMaterial({ color: 0xffffaa });
-                const ceilingLight = new THREE.Mesh(lightGeometry, lightMaterial);
-                ceilingLight.position.set(0, model.ceiling.height - 0.05, 0);
-                tourScene.add(ceilingLight);
-                
-                // Add light glow
-                const pointLight = new THREE.PointLight(0xffffaa, 0.8, 5);
-                pointLight.position.set(0, model.ceiling.height - 0.5, 0);
-                tourScene.add(pointLight);
+            // Create roof if not condo
+            if (propertyType !== 'คอนโดมิเนียม' && roofVisible) {
+                createRoof(floorPlan);
             }
             
             // Add furniture
-            model.furniture.forEach(furnitureItem => {
-                const furniture = createFurnitureMesh(furnitureItem);
-                tourScene.add(furniture);
-            });
-            
-            // Add room label
-            const roomLabel = document.createElement('div');
-            roomLabel.style.position = 'absolute';
-            roomLabel.style.top = '70px';
-            roomLabel.style.left = '50%';
-            roomLabel.style.transform = 'translateX(-50%)';
-            roomLabel.style.color = 'white';
-            roomLabel.style.backgroundColor = 'rgba(0,0,0,0.5)';
-            roomLabel.style.padding = '5px 15px';
-            roomLabel.style.borderRadius = '20px';
-            roomLabel.style.fontSize = '1.2rem';
-            roomLabel.textContent = `ห้อง: ${model.roomType}`;
-            
-            const container = document.getElementById('tour3d-container');
-            container.appendChild(roomLabel);
-            
-            currentRoomModel = model;
-        }
-        
-        function createFurnitureMesh(furnitureItem) {
-            let geometry;
-            let material;
-            
-            switch(furnitureItem.type) {
-                case 'sofa':
-                    geometry = new THREE.BoxGeometry(2, 0.8, 0.8);
-                    material = new THREE.MeshStandardMaterial({ color: furnitureItem.color, roughness: 0.8 });
-                    break;
-                case 'coffee_table':
-                    geometry = new THREE.BoxGeometry(1.2, 0.1, 0.8);
-                    material = new THREE.MeshStandardMaterial({ color: furnitureItem.color, roughness: 0.6 });
-                    break;
-                case 'bed':
-                    geometry = new THREE.BoxGeometry(2, 0.5, 1.8);
-                    material = new THREE.MeshStandardMaterial({ color: furnitureItem.color, roughness: 0.8 });
-                    break;
-                case 'kitchen_cabinet':
-                    geometry = new THREE.BoxGeometry(3, 2, 0.5);
-                    material = new THREE.MeshStandardMaterial({ color: furnitureItem.color, roughness: 0.7 });
-                    break;
-                case 'dining_table':
-                    geometry = new THREE.CylinderGeometry(0.7, 0.7, 0.05, 16);
-                    material = new THREE.MeshStandardMaterial({ color: furnitureItem.color, roughness: 0.6 });
-                    break;
-                default:
-                    geometry = new THREE.BoxGeometry(1, 1, 1);
-                    material = new THREE.MeshStandardMaterial({ color: furnitureItem.color, roughness: 0.7 });
+            if (furnitureVisible) {
+                createFurniture(floorPlan, propertyType);
             }
             
-            const mesh = new THREE.Mesh(geometry, material);
-            mesh.position.set(
-                furnitureItem.position.x,
-                furnitureItem.position.y,
-                furnitureItem.position.z
-            );
+            // Add dimensions
+            if (dimensionsVisible) {
+                createDimensionLines(floorPlan);
+            }
+        }
+        
+        function createWalls(floorPlan, floor) {
+            if (!wallVisible) return;
             
-            return mesh;
+            const wallThickness = 0.2;
+            const wallHeight = 2.8;
+            
+            // Outer walls
+            const wallMaterial = new THREE.MeshStandardMaterial({ 
+                color: 0xF5F5DC,
+                roughness: 0.7,
+                metalness: 0.1
+            });
+            
+            // Front wall
+            const frontWall = new THREE.Mesh(
+                new THREE.BoxGeometry(floorPlan.width, wallHeight, wallThickness),
+                wallMaterial
+            );
+            frontWall.position.set(0, floor * 3 + wallHeight/2, -floorPlan.length/2 + wallThickness/2);
+            frontWall.castShadow = true;
+            frontWall.receiveShadow = true;
+            frontWall.userData = { type: 'housePart', part: 'wall', floor: floor };
+            tourScene.add(frontWall);
+            
+            // Back wall
+            const backWall = new THREE.Mesh(
+                new THREE.BoxGeometry(floorPlan.width, wallHeight, wallThickness),
+                wallMaterial
+            );
+            backWall.position.set(0, floor * 3 + wallHeight/2, floorPlan.length/2 - wallThickness/2);
+            backWall.castShadow = true;
+            backWall.receiveShadow = true;
+            backWall.userData = { type: 'housePart', part: 'wall', floor: floor };
+            tourScene.add(backWall);
+            
+            // Left wall
+            const leftWall = new THREE.Mesh(
+                new THREE.BoxGeometry(wallThickness, wallHeight, floorPlan.length),
+                wallMaterial
+            );
+            leftWall.position.set(-floorPlan.width/2 + wallThickness/2, floor * 3 + wallHeight/2, 0);
+            leftWall.castShadow = true;
+            leftWall.receiveShadow = true;
+            leftWall.userData = { type: 'housePart', part: 'wall', floor: floor };
+            tourScene.add(leftWall);
+            
+            // Right wall
+            const rightWall = new THREE.Mesh(
+                new THREE.BoxGeometry(wallThickness, wallHeight, floorPlan.length),
+                wallMaterial
+            );
+            rightWall.position.set(floorPlan.width/2 - wallThickness/2, floor * 3 + wallHeight/2, 0);
+            rightWall.castShadow = true;
+            rightWall.receiveShadow = true;
+            rightWall.userData = { type: 'housePart', part: 'wall', floor: floor };
+            tourScene.add(rightWall);
+            
+            // Interior walls (simplified)
+            const interiorWallMaterial = new THREE.MeshStandardMaterial({ 
+                color: 0xE8E8E8,
+                roughness: 0.7,
+                metalness: 0.1
+            });
+            
+            // Add some interior walls
+            if (floor === 0) {
+                // Wall separating living room and kitchen
+                const interiorWall1 = new THREE.Mesh(
+                    new THREE.BoxGeometry(floorPlan.width * 0.6, wallHeight, wallThickness),
+                    interiorWallMaterial
+                );
+                interiorWall1.position.set(0, floor * 3 + wallHeight/2, -floorPlan.length/4);
+                interiorWall1.rotation.y = Math.PI / 2;
+                interiorWall1.castShadow = true;
+                interiorWall1.receiveShadow = true;
+                interiorWall1.userData = { type: 'housePart', part: 'interiorWall', floor: floor };
+                tourScene.add(interiorWall1);
+            }
+        }
+        
+        function createRooms(rooms, floorPlan, floor) {
+            // Create room areas (visual representation)
+            rooms.forEach((room, index) => {
+                const roomWidth = Math.sqrt(room.area) * 0.8;
+                const roomLength = room.area / roomWidth;
+                
+                const roomGeometry = new THREE.BoxGeometry(roomWidth, 0.01, roomLength);
+                const roomMaterial = new THREE.MeshBasicMaterial({ 
+                    color: 0xFFFFFF,
+                    transparent: true,
+                    opacity: 0.1,
+                    wireframe: true
+                });
+                
+                const roomMesh = new THREE.Mesh(roomGeometry, roomMaterial);
+                roomMesh.position.set(
+                    (Math.random() - 0.5) * floorPlan.width * 0.5,
+                    floor * 3 + 0.01,
+                    (Math.random() - 0.5) * floorPlan.length * 0.5
+                );
+                roomMesh.userData = { type: 'housePart', part: 'roomArea', room: room.name, floor: floor };
+                tourScene.add(roomMesh);
+                
+                // Add room label
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+                canvas.width = 256;
+                canvas.height = 128;
+                
+                context.fillStyle = 'rgba(0, 0, 0, 0.7)';
+                context.fillRect(0, 0, canvas.width, canvas.height);
+                
+                context.font = '24px Arial';
+                context.fillStyle = 'white';
+                context.textAlign = 'center';
+                context.fillText(room.name, canvas.width/2, 40);
+                
+                context.font = '20px Arial';
+                context.fillText(`${Math.round(room.area)} ตร.ม.`, canvas.width/2, 80);
+                
+                const texture = new THREE.CanvasTexture(canvas);
+                const spriteMaterial = new THREE.SpriteMaterial({ map: texture });
+                const sprite = new THREE.Sprite(spriteMaterial);
+                sprite.scale.set(roomWidth * 0.8, roomLength * 0.4, 1);
+                sprite.position.copy(roomMesh.position);
+                sprite.position.y += 0.5;
+                sprite.userData = { type: 'housePart', part: 'roomLabel', room: room.name, floor: floor };
+                tourScene.add(sprite);
+            });
+        }
+        
+        function createRoof(floorPlan) {
+            const roofGeometry = new THREE.ConeGeometry(floorPlan.width * 0.7, 2, 4);
+            const roofMaterial = new THREE.MeshStandardMaterial({ 
+                color: 0x8B4513,
+                roughness: 0.9,
+                metalness: 0.2
+            });
+            const roof = new THREE.Mesh(roofGeometry, roofMaterial);
+            roof.position.y = floorPlan.floors * 3 + 1;
+            roof.rotation.y = Math.PI / 4;
+            roof.castShadow = true;
+            roof.receiveShadow = true;
+            roof.userData = { type: 'housePart', part: 'roof' };
+            tourScene.add(roof);
+        }
+        
+        function createFurniture(floorPlan, propertyType) {
+            // Furniture based on property type
+            const furnitureConfigs = {
+                'บ้านเดี่ยว': [
+                    { type: 'sofa', position: { x: 0, y: 0.4, z: -floorPlan.length/4 }, scale: { x: 2, y: 0.8, z: 0.8 } },
+                    { type: 'table', position: { x: 0, y: 0.2, z: 0 }, scale: { x: 1.2, y: 0.1, z: 0.8 } },
+                    { type: 'bed', position: { x: 0, y: 0.5, z: floorPlan.length/4 }, scale: { x: 2, y: 0.5, z: 1.8 } }
+                ],
+                'คอนโดมิเนียม': [
+                    { type: 'sofa', position: { x: 0, y: 0.4, z: -floorPlan.length/3 }, scale: { x: 1.5, y: 0.8, z: 0.7 } },
+                    { type: 'table', position: { x: 0, y: 0.2, z: -floorPlan.length/6 }, scale: { x: 0.8, y: 0.1, z: 0.6 } },
+                    { type: 'bed', position: { x: 0, y: 0.5, z: floorPlan.length/3 }, scale: { x: 1.8, y: 0.5, z: 1.5 } }
+                ]
+            };
+            
+            const config = furnitureConfigs[propertyType] || furnitureConfigs['บ้านเดี่ยว'];
+            
+            config.forEach((item, index) => {
+                let geometry;
+                let color;
+                
+                switch(item.type) {
+                    case 'sofa':
+                        geometry = new THREE.BoxGeometry(item.scale.x, item.scale.y, item.scale.z);
+                        color = 0x8B4513; // Brown
+                        break;
+                    case 'table':
+                        geometry = new THREE.BoxGeometry(item.scale.x, item.scale.y, item.scale.z);
+                        color = 0x8B4513; // Brown
+                        break;
+                    case 'bed':
+                        geometry = new THREE.BoxGeometry(item.scale.x, item.scale.y, item.scale.z);
+                        color = 0x4169E1; // Royal Blue
+                        break;
+                    default:
+                        geometry = new THREE.BoxGeometry(1, 1, 1);
+                        color = 0x888888;
+                }
+                
+                const material = new THREE.MeshStandardMaterial({ 
+                    color: color,
+                    roughness: 0.8,
+                    metalness: 0.1
+                });
+                
+                const furniture = new THREE.Mesh(geometry, material);
+                furniture.position.set(item.position.x, item.position.y, item.position.z);
+                furniture.castShadow = true;
+                furniture.receiveShadow = true;
+                furniture.userData = { type: 'housePart', part: 'furniture', item: item.type };
+                tourScene.add(furniture);
+            });
+        }
+        
+        function createGrid(width, length) {
+            if (!gridVisible) return;
+            
+            const gridHelper = new THREE.GridHelper(Math.max(width, length) * 1.5, 20, 0x444444, 0x888888);
+            gridHelper.position.y = 0.01;
+            gridHelper.userData = { type: 'housePart', part: 'grid' };
+            tourScene.add(gridHelper);
+        }
+        
+        function createDimensionLines(floorPlan) {
+            // Create dimension lines for width
+            const widthLineMaterial = new THREE.LineBasicMaterial({ color: 0xff0000, linewidth: 2 });
+            
+            const widthPoints = [];
+            widthPoints.push(new THREE.Vector3(-floorPlan.width/2, 0.1, -floorPlan.length/2 - 2));
+            widthPoints.push(new THREE.Vector3(floorPlan.width/2, 0.1, -floorPlan.length/2 - 2));
+            
+            const widthLineGeometry = new THREE.BufferGeometry().setFromPoints(widthPoints);
+            const widthLine = new THREE.Line(widthLineGeometry, widthLineMaterial);
+            widthLine.userData = { type: 'housePart', part: 'dimension', measurement: 'width' };
+            tourScene.add(widthLine);
+            
+            // Create dimension lines for length
+            const lengthPoints = [];
+            lengthPoints.push(new THREE.Vector3(floorPlan.width/2 + 2, 0.1, -floorPlan.length/2));
+            lengthPoints.push(new THREE.Vector3(floorPlan.width/2 + 2, 0.1, floorPlan.length/2));
+            
+            const lengthLineGeometry = new THREE.BufferGeometry().setFromPoints(lengthPoints);
+            const lengthLine = new THREE.Line(lengthLineGeometry, widthLineMaterial);
+            lengthLine.userData = { type: 'housePart', part: 'dimension', measurement: 'length' };
+            tourScene.add(lengthLine);
+            
+            // Add dimension labels
+            const widthLabel = createTextSprite(`${floorPlan.width.toFixed(1)} m`);
+            widthLabel.position.set(0, 0.5, -floorPlan.length/2 - 2);
+            widthLabel.userData = { type: 'housePart', part: 'dimensionLabel', measurement: 'width' };
+            tourScene.add(widthLabel);
+            
+            const lengthLabel = createTextSprite(`${floorPlan.length.toFixed(1)} m`);
+            lengthLabel.position.set(floorPlan.width/2 + 2, 0.5, 0);
+            lengthLabel.userData = { type: 'housePart', part: 'dimensionLabel', measurement: 'length' };
+            tourScene.add(lengthLabel);
+        }
+        
+        function createTextSprite(text) {
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            canvas.width = 256;
+            canvas.height = 128;
+            
+            context.fillStyle = 'rgba(255, 0, 0, 0.7)';
+            context.fillRect(0, 0, canvas.width, canvas.height);
+            
+            context.font = 'bold 24px Arial';
+            context.fillStyle = 'white';
+            context.textAlign = 'center';
+            context.fillText(text, canvas.width/2, 64);
+            
+            const texture = new THREE.CanvasTexture(canvas);
+            const spriteMaterial = new THREE.SpriteMaterial({ map: texture });
+            const sprite = new THREE.Sprite(spriteMaterial);
+            sprite.scale.set(2, 1, 1);
+            
+            return sprite;
         }
         
         function changeTourRoom(direction) {
-            if (isGenerating3D) return;
-            
-            tourCurrentRoom += direction;
-            
-            if (tourCurrentRoom < 0) {
-                tourCurrentRoom = aiGeneratedModels.length - 1;
-            } else if (tourCurrentRoom >= aiGeneratedModels.length) {
-                tourCurrentRoom = 0;
+            // For now, just change camera position
+            if (currentProperty3D && currentProperty3D.floorPlan) {
+                const floorPlan = currentProperty3D.floorPlan;
+                
+                // Simple room navigation - move camera to different positions
+                const positions = [
+                    { x: floorPlan.width * 0.8, y: floorPlan.floors * 3, z: floorPlan.length * 0.8 },
+                    { x: 0, y: floorPlan.floors * 1.5, z: floorPlan.length * 0.8 },
+                    { x: -floorPlan.width * 0.8, y: floorPlan.floors * 3, z: floorPlan.length * 0.8 },
+                    { x: 0, y: floorPlan.floors * 3, z: -floorPlan.length * 0.8 }
+                ];
+                
+                tourCurrentRoom = (tourCurrentRoom + direction + positions.length) % positions.length;
+                const newPosition = positions[tourCurrentRoom];
+                
+                // Animate camera movement
+                new TWEEN.Tween(tourCamera.position)
+                    .to({ x: newPosition.x, y: newPosition.y, z: newPosition.z }, 500)
+                    .easing(TWEEN.Easing.Quadratic.Out)
+                    .start();
             }
-            
-            loadGeneratedRoom(tourCurrentRoom);
         }
         
         function resetTourView() {
-            tourCamera.position.set(0, 2, 5);
-            tourControls.reset();
+            if (currentProperty3D && currentProperty3D.floorPlan) {
+                const floorPlan = currentProperty3D.floorPlan;
+                tourCamera.position.set(floorPlan.width * 0.8, floorPlan.floors * 3, floorPlan.length * 0.8);
+                tourControls.reset();
+            }
         }
         
         function toggleAutoRotate() {
             autoRotateEnabled = !autoRotateEnabled;
             tourControls.autoRotate = autoRotateEnabled;
+            tourControls.autoRotateSpeed = 1.0;
             const btn = document.getElementById('autoRotate');
             if (autoRotateEnabled) {
                 btn.innerHTML = '<i class="fas fa-stop"></i> หยุดหมุน';
@@ -3586,28 +3528,268 @@
         function handleWalkKeys(event) {
             if (!walkModeEnabled) return;
             
+            const moveSpeed = 0.2;
+            
             switch(event.key) {
                 case 'w':
                 case 'ArrowUp':
-                    tourCamera.position.x -= Math.sin(tourControls.getAzimuthalAngle()) * walkSpeed;
-                    tourCamera.position.z -= Math.cos(tourControls.getAzimuthalAngle()) * walkSpeed;
+                    tourCamera.position.x -= Math.sin(tourControls.getAzimuthalAngle()) * moveSpeed;
+                    tourCamera.position.z -= Math.cos(tourControls.getAzimuthalAngle()) * moveSpeed;
                     break;
                 case 's':
                 case 'ArrowDown':
-                    tourCamera.position.x += Math.sin(tourControls.getAzimuthalAngle()) * walkSpeed;
-                    tourCamera.position.z += Math.cos(tourControls.getAzimuthalAngle()) * walkSpeed;
+                    tourCamera.position.x += Math.sin(tourControls.getAzimuthalAngle()) * moveSpeed;
+                    tourCamera.position.z += Math.cos(tourControls.getAzimuthalAngle()) * moveSpeed;
                     break;
                 case 'a':
                 case 'ArrowLeft':
-                    tourCamera.position.x -= Math.cos(tourControls.getAzimuthalAngle()) * walkSpeed;
-                    tourCamera.position.z += Math.sin(tourControls.getAzimuthalAngle()) * walkSpeed;
+                    tourCamera.position.x -= Math.cos(tourControls.getAzimuthalAngle()) * moveSpeed;
+                    tourCamera.position.z += Math.sin(tourControls.getAzimuthalAngle()) * moveSpeed;
                     break;
                 case 'd':
                 case 'ArrowRight':
-                    tourCamera.position.x += Math.cos(tourControls.getAzimuthalAngle()) * walkSpeed;
-                    tourCamera.position.z -= Math.sin(tourControls.getAzimuthalAngle()) * walkSpeed;
+                    tourCamera.position.x += Math.cos(tourControls.getAzimuthalAngle()) * moveSpeed;
+                    tourCamera.position.z -= Math.sin(tourControls.getAzimuthalAngle()) * moveSpeed;
                     break;
             }
+        }
+        
+        function toggleWalls() {
+            wallVisible = !wallVisible;
+            if (currentProperty3D) {
+                createHouseStructure(currentProperty3D.floorPlan, currentProperty3D.type);
+            }
+        }
+        
+        function toggleRoof() {
+            roofVisible = !roofVisible;
+            if (currentProperty3D) {
+                createHouseStructure(currentProperty3D.floorPlan, currentProperty3D.type);
+            }
+        }
+        
+        function toggleFurniture() {
+            furnitureVisible = !furnitureVisible;
+            if (currentProperty3D) {
+                createHouseStructure(currentProperty3D.floorPlan, currentProperty3D.type);
+            }
+        }
+        
+        function toggleGrid() {
+            gridVisible = !gridVisible;
+            
+            // Remove existing grid
+            const objectsToRemove = [];
+            tourScene.traverse(function(child) {
+                if (child.userData && child.userData.part === 'grid') {
+                    objectsToRemove.push(child);
+                }
+            });
+            objectsToRemove.forEach(obj => tourScene.remove(obj));
+            
+            if (gridVisible && currentProperty3D) {
+                createGrid(currentProperty3D.floorPlan.width, currentProperty3D.floorPlan.length);
+            }
+        }
+        
+        function toggleDimensions() {
+            dimensionsVisible = !dimensionsVisible;
+            
+            // Remove existing dimensions
+            const objectsToRemove = [];
+            tourScene.traverse(function(child) {
+                if (child.userData && (child.userData.part === 'dimension' || child.userData.part === 'dimensionLabel')) {
+                    objectsToRemove.push(child);
+                }
+            });
+            objectsToRemove.forEach(obj => tourScene.remove(obj));
+            
+            if (dimensionsVisible && currentProperty3D) {
+                createDimensionLines(currentProperty3D.floorPlan);
+            }
+        }
+        
+        function startDistanceMeasurement() {
+            isMeasuring = true;
+            measurementPoints = [];
+            alert('คลิกสองจุดในฉากเพื่อวัดระยะทาง');
+            
+            const onClick = (event) => {
+                if (!isMeasuring) return;
+                
+                // Get mouse position
+                const mouse = new THREE.Vector2();
+                mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+                mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+                
+                // Raycast
+                const raycaster = new THREE.Raycaster();
+                raycaster.setFromCamera(mouse, tourCamera);
+                
+                const intersects = raycaster.intersectObjects(tourScene.children, true);
+                
+                if (intersects.length > 0) {
+                    const point = intersects[0].point;
+                    measurementPoints.push(point);
+                    
+                    // Create measurement point marker
+                    const geometry = new THREE.SphereGeometry(0.1, 8, 8);
+                    const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+                    const sphere = new THREE.Mesh(geometry, material);
+                    sphere.position.copy(point);
+                    tourScene.add(sphere);
+                    
+                    if (measurementPoints.length === 2) {
+                        // Calculate distance
+                        const distance = measurementPoints[0].distanceTo(measurementPoints[1]);
+                        
+                        // Create line between points
+                        const lineGeometry = new THREE.BufferGeometry().setFromPoints(measurementPoints);
+                        const lineMaterial = new THREE.LineBasicMaterial({ color: 0x00ff00, linewidth: 2 });
+                        const line = new THREE.Line(lineGeometry, lineMaterial);
+                        tourScene.add(line);
+                        measurementLines.push(line);
+                        
+                        // Create distance label
+                        const midPoint = new THREE.Vector3()
+                            .addVectors(measurementPoints[0], measurementPoints[1])
+                            .multiplyScalar(0.5);
+                        
+                        const label = createTextSprite(`${distance.toFixed(2)} m`);
+                        label.position.copy(midPoint);
+                        label.position.y += 0.2;
+                        tourScene.add(label);
+                        measurementLines.push(label);
+                        
+                        alert(`ระยะทาง: ${distance.toFixed(2)} เมตร`);
+                        
+                        // Reset for next measurement
+                        measurementPoints = [];
+                        isMeasuring = false;
+                    }
+                }
+            };
+            
+            // Add click event listener
+            tourRenderer.domElement.addEventListener('click', onClick);
+            
+            // Store reference to remove later
+            tourRenderer.domElement.userData.measurementClick = onClick;
+        }
+        
+        function startAreaMeasurement() {
+            isMeasuring = true;
+            measurementPoints = [];
+            alert('คลิกอย่างน้อย 3 จุดในฉากเพื่อวัดพื้นที่ (คลิกจุดแรกอีกครั้งเพื่อปิดรูปทรง)');
+            
+            const onClick = (event) => {
+                if (!isMeasuring) return;
+                
+                // Get mouse position
+                const mouse = new THREE.Vector2();
+                mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+                mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+                
+                // Raycast
+                const raycaster = new THREE.Raycaster();
+                raycaster.setFromCamera(mouse, tourCamera);
+                
+                const intersects = raycaster.intersectObjects(tourScene.children, true);
+                
+                if (intersects.length > 0) {
+                    const point = intersects[0].point;
+                    
+                    // Check if we're closing the polygon
+                    if (measurementPoints.length >= 3 && 
+                        point.distanceTo(measurementPoints[0]) < 0.5) {
+                        // Calculate area using shoelace formula
+                        let area = 0;
+                        const n = measurementPoints.length;
+                        
+                        for (let i = 0; i < n; i++) {
+                            const j = (i + 1) % n;
+                            area += measurementPoints[i].x * measurementPoints[j].z;
+                            area -= measurementPoints[j].x * measurementPoints[i].z;
+                        }
+                        
+                        area = Math.abs(area) / 2;
+                        
+                        // Create polygon
+                        const shape = new THREE.Shape(measurementPoints.map(p => new THREE.Vector2(p.x, p.z)));
+                        const geometry = new THREE.ShapeGeometry(shape);
+                        const material = new THREE.MeshBasicMaterial({ 
+                            color: 0x00ff00, 
+                            transparent: true, 
+                            opacity: 0.3,
+                            side: THREE.DoubleSide
+                        });
+                        const mesh = new THREE.Mesh(geometry, material);
+                        mesh.position.y = 0.01;
+                        mesh.rotation.x = -Math.PI / 2;
+                        tourScene.add(mesh);
+                        measurementLines.push(mesh);
+                        
+                        // Create area label
+                        const center = new THREE.Vector3();
+                        measurementPoints.forEach(p => center.add(p));
+                        center.divideScalar(n);
+                        
+                        const label = createTextSprite(`${area.toFixed(2)} ตร.ม.`);
+                        label.position.copy(center);
+                        label.position.y += 0.2;
+                        tourScene.add(label);
+                        measurementLines.push(label);
+                        
+                        alert(`พื้นที่: ${area.toFixed(2)} ตารางเมตร`);
+                        
+                        // Reset for next measurement
+                        measurementPoints = [];
+                        isMeasuring = false;
+                    } else {
+                        // Add new point
+                        measurementPoints.push(point);
+                        
+                        // Create point marker
+                        const geometry = new THREE.SphereGeometry(0.1, 8, 8);
+                        const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+                        const sphere = new THREE.Mesh(geometry, material);
+                        sphere.position.copy(point);
+                        tourScene.add(sphere);
+                        
+                        // Draw line to previous point
+                        if (measurementPoints.length > 1) {
+                            const lastTwoPoints = measurementPoints.slice(-2);
+                            const lineGeometry = new THREE.BufferGeometry().setFromPoints(lastTwoPoints);
+                            const lineMaterial = new THREE.LineBasicMaterial({ color: 0x00ff00, linewidth: 2 });
+                            const line = new THREE.Line(lineGeometry, lineMaterial);
+                            tourScene.add(line);
+                            measurementLines.push(line);
+                        }
+                    }
+                }
+            };
+            
+            // Add click event listener
+            tourRenderer.domElement.addEventListener('click', onClick);
+            
+            // Store reference to remove later
+            tourRenderer.domElement.userData.measurementClick = onClick;
+        }
+        
+        function clearMeasurements() {
+            // Remove all measurement objects
+            measurementLines.forEach(obj => {
+                tourScene.remove(obj);
+            });
+            measurementLines = [];
+            
+            // Remove click event listener
+            if (tourRenderer.domElement.userData.measurementClick) {
+                tourRenderer.domElement.removeEventListener('click', tourRenderer.domElement.userData.measurementClick);
+                delete tourRenderer.domElement.userData.measurementClick;
+            }
+            
+            isMeasuring = false;
         }
         
         function onTourWindowResize() {
@@ -3619,6 +3801,7 @@
         
         function animateTour() {
             requestAnimationFrame(animateTour);
+            TWEEN.update();
             tourControls.update();
             tourRenderer.render(tourScene, tourCamera);
         }
@@ -3632,14 +3815,20 @@
                 tourRenderer.dispose();
             }
             
-            // Remove walk mode event listener
+            // Remove event listeners
             document.removeEventListener('keydown', handleWalkKeys);
-            
             window.removeEventListener('resize', onTourWindowResize);
+            
+            // Remove measurement event listener
+            if (tourRenderer && tourRenderer.domElement.userData.measurementClick) {
+                tourRenderer.domElement.removeEventListener('click', tourRenderer.domElement.userData.measurementClick);
+            }
             
             // Reset variables
             walkModeEnabled = false;
-            isGenerating3D = false;
+            isMeasuring = false;
+            measurementPoints = [];
+            measurementLines = [];
         }
 
         // Interactive Map
@@ -3730,31 +3919,30 @@
                 "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
             ];
             
-            const samplePanoramas = [
-                "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
-                "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
-            ];
+            const sampleAddress = "ลาดพร้าว 71, กรุงเทพฯ";
+            const lat = 13.805 + Math.random() * 0.05;
+            const lng = 100.6 + Math.random() * 0.05;
             
             const sampleProperty = {
                 id: Date.now(),
                 title: "บ้านตัวอย่างใหม่ สวยงาม",
                 type: "บ้านเดี่ยว",
                 price: formatPrice(Math.floor(Math.random() * 10000000) + 3000000),
-                location: "ทำเลตัวอย่าง, กรุงเทพฯ",
+                address: sampleAddress,
+                location: sampleAddress.split(',').slice(0, 2).join(', '),
                 size: Math.floor(Math.random() * 200) + 100 + " ตร.ม.",
                 bedrooms: Math.floor(Math.random() * 4) + 1,
                 bathrooms: Math.floor(Math.random() * 3) + 1,
                 parking: Math.floor(Math.random() * 3) + 1,
                 description: "บ้านตัวอย่างที่เพิ่มเข้ามาใหม่ พร้อมเทคโนโลยี 3D Virtual Tour และมุมมอง 360 องศาหลายห้อง",
                 images: sampleImages,
-                panoramas: samplePanoramas,
-                tourImages: sampleImages,
-                lat: getRandomLat(),
-                lng: getRandomLng(),
+                lat: lat,
+                lng: lng,
                 contactName: "ตัวอย่าง ผู้ขาย",
                 contactPhone: "089" + Math.floor(Math.random() * 10000000).toString().padStart(7, '0'),
                 contactEmail: "example@email.com",
-                date: new Date().toISOString().split('T')[0]
+                date: new Date().toISOString().split('T')[0],
+                floorPlan: generateFloorPlan("บ้านเดี่ยว", Math.floor(Math.random() * 200) + 100)
             };
             
             userProperties.push(sampleProperty);
