@@ -283,94 +283,61 @@
             100% { transform: rotateX(-10deg) rotateY(360deg); }
         }
         
-        /* Property Listing Section - Now hidden by default, shown in modal */
-        .listing-form-section {
-            display: none;
+        /* Header Dropdown Form */
+        .header-form-dropdown {
+            position: relative;
         }
         
-        /* Property Listing Modal */
-        .listing-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        .form-dropdown-content {
+            position: absolute;
+            top: calc(100% + 15px);
+            right: 0;
+            width: 400px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
             z-index: 2000;
             opacity: 0;
             visibility: hidden;
+            transform: translateY(-20px);
             transition: var(--transition);
+            overflow: hidden;
         }
         
-        .listing-modal.active {
+        .form-dropdown-content.active {
             opacity: 1;
             visibility: visible;
+            transform: translateY(0);
         }
         
-        .listing-modal-content {
-            background-color: white;
-            border-radius: 20px;
-            width: 90%;
-            max-width: 1000px;
-            max-height: 90vh;
-            overflow-y: auto;
-            position: relative;
-            transform: scale(0.9);
-            transition: var(--transition);
-            padding: 30px;
+        .form-dropdown-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         
-        .listing-modal.active .listing-modal-content {
-            transform: scale(1);
-        }
-        
-        .close-listing-modal {
-            position: absolute;
-            top: 20px;
-            right: 20px;
+        .close-form-dropdown {
             background: none;
             border: none;
-            font-size: 2rem;
-            color: var(--dark);
+            color: white;
+            font-size: 1.5rem;
             cursor: pointer;
-            transition: var(--transition);
-            z-index: 10;
         }
         
-        .close-listing-modal:hover {
-            color: var(--primary);
-            transform: rotate(90deg);
+        .form-dropdown-body {
+            max-height: 60vh;
+            overflow-y: auto;
+            padding: 25px;
         }
         
-        /* Form Styles */
-        .form-container {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-        
-        .form-section-title {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-        
-        .form-section-title h2 {
-            font-size: 2.5rem;
-            color: var(--primary);
-            margin-bottom: 15px;
-        }
-        
-        .form-section-title p {
-            color: var(--gray);
-            font-size: 1.1rem;
-        }
-        
+        /* Property Listing Form in Dropdown */
         .form-row {
             display: flex;
-            gap: 30px;
-            margin-bottom: 25px;
+            gap: 15px;
+            margin-bottom: 20px;
         }
         
         .form-group {
@@ -379,20 +346,21 @@
         
         .form-group label {
             display: block;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             font-weight: 600;
             color: var(--dark);
+            font-size: 0.9rem;
         }
         
         .form-group input,
         .form-group select,
         .form-group textarea {
             width: 100%;
-            padding: 15px;
+            padding: 12px;
             border: 2px solid #e0e0e0;
-            border-radius: 10px;
+            border-radius: 8px;
             font-family: 'Kanit', sans-serif;
-            font-size: 1rem;
+            font-size: 0.95rem;
             transition: var(--transition);
         }
         
@@ -408,13 +376,13 @@
         }
         
         .image-upload-area {
-            border: 3px dashed #e0e0e0;
-            border-radius: 15px;
-            padding: 40px;
+            border: 2px dashed #e0e0e0;
+            border-radius: 10px;
+            padding: 25px;
             text-align: center;
             cursor: pointer;
             transition: var(--transition);
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         
         .image-upload-area:hover {
@@ -423,61 +391,62 @@
         }
         
         .image-upload-area i {
-            font-size: 3rem;
+            font-size: 2.5rem;
             color: var(--primary);
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
         
         #image-preview {
             display: flex;
             flex-wrap: wrap;
-            gap: 15px;
-            margin-top: 20px;
+            gap: 10px;
+            margin-top: 15px;
         }
         
         .preview-image {
-            width: 120px;
-            height: 120px;
+            width: 80px;
+            height: 80px;
             object-fit: cover;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
         }
         
         .form-actions {
             display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 40px;
+            gap: 15px;
+            margin-top: 25px;
         }
         
         .submit-btn {
             background-color: var(--primary);
             color: white;
             border: none;
-            padding: 15px 40px;
+            padding: 12px 25px;
             border-radius: 50px;
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
             transition: var(--transition);
             box-shadow: 0 5px 15px rgba(15, 76, 129, 0.3);
+            flex: 1;
         }
         
         .submit-btn:hover {
             background-color: #0c3d6b;
-            transform: translateY(-3px);
+            transform: translateY(-2px);
         }
         
         .reset-btn {
             background-color: #f8f9fa;
             color: var(--dark);
             border: 2px solid #e0e0e0;
-            padding: 15px 40px;
+            padding: 12px 25px;
             border-radius: 50px;
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
             transition: var(--transition);
+            flex: 1;
         }
         
         .reset-btn:hover {
@@ -487,13 +456,13 @@
         /* Dropdown สำหรับเลือกภาพ */
         .dropdown-container {
             position: relative;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
         
         .dropdown-header {
-            padding: 15px;
+            padding: 12px;
             border: 2px solid #e0e0e0;
-            border-radius: 10px;
+            border-radius: 8px;
             cursor: pointer;
             display: flex;
             justify-content: space-between;
@@ -517,11 +486,11 @@
             right: 0;
             background: white;
             border: 1px solid #e0e0e0;
-            border-radius: 0 0 10px 10px;
+            border-radius: 0 0 8px 8px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
             z-index: 10;
             display: none;
-            max-height: 250px;
+            max-height: 200px;
             overflow-y: auto;
         }
         
@@ -530,9 +499,10 @@
         }
         
         .dropdown-option {
-            padding: 12px 15px;
+            padding: 10px 12px;
             cursor: pointer;
             transition: var(--transition);
+            font-size: 0.9rem;
         }
         
         .dropdown-option:hover {
@@ -546,89 +516,18 @@
         }
         
         .dropdown-option img {
-            width: 40px;
-            height: 40px;
+            width: 30px;
+            height: 30px;
             object-fit: cover;
-            border-radius: 5px;
-            margin-right: 10px;
+            border-radius: 4px;
+            margin-right: 8px;
             vertical-align: middle;
         }
         
         .dropdown-hint {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: var(--gray);
             margin-top: 5px;
-        }
-        
-        /* Header Dropdown for Listing Form */
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-        
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
-        
-        .dropbtn {
-            background-color: var(--primary);
-            color: white;
-            padding: 12px 30px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: var(--transition);
-            box-shadow: 0 5px 15px rgba(15, 76, 129, 0.3);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .dropbtn:hover, .dropbtn:focus {
-            background-color: #0c3d6b;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(15, 76, 129, 0.4);
-        }
-        
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            right: 0;
-            background-color: white;
-            min-width: 250px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 1;
-            border-radius: 10px;
-            overflow: hidden;
-            margin-top: 10px;
-        }
-        
-        .dropdown-content a {
-            color: var(--dark);
-            padding: 15px 20px;
-            text-decoration: none;
-            display: block;
-            font-weight: 500;
-            transition: var(--transition);
-        }
-        
-        .dropdown-content a:hover {
-            background-color: rgba(15, 76, 129, 0.05);
-            color: var(--primary);
-            padding-left: 25px;
-        }
-        
-        .dropdown-content a i {
-            margin-right: 10px;
-            color: var(--primary);
-        }
-        
-        .show {
-            display: block;
         }
         
         /* Properties Section */
@@ -1053,7 +952,7 @@
             height: 300px;
         }
         
-        /* 360 Viewer Modal */
+        /* 360 Viewer Modal - IMPROVED */
         .viewer-360-modal {
             position: fixed;
             top: 0;
@@ -1124,20 +1023,24 @@
             position: relative;
             cursor: grab;
             overflow: hidden;
+            perspective: 1000px;
         }
         
         .panorama-viewer:active {
             cursor: grabbing;
         }
         
-        .panorama-image {
+        .panorama-sphere {
             width: 200%;
             height: 100%;
-            object-fit: cover;
             position: absolute;
             top: 0;
             left: 0;
-            transition: transform 0.1s linear;
+            background-size: cover;
+            background-position: center;
+            transform-style: preserve-3d;
+            transition: transform 0.1s ease-out;
+            will-change: transform;
         }
         
         .viewer-instruction {
@@ -1151,11 +1054,12 @@
             background: rgba(0, 0, 0, 0.5);
             padding: 10px;
             backdrop-filter: blur(5px);
+            z-index: 10;
         }
         
         .viewer-controls {
             position: absolute;
-            bottom: 60px;
+            bottom: 70px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
@@ -1183,7 +1087,7 @@
             transform: scale(1.1);
         }
         
-        /* 3D Tour Modal */
+        /* 3D Tour Modal - IMPROVED */
         .tour-3d-modal {
             position: fixed;
             top: 0;
@@ -1352,7 +1256,6 @@
             display: flex;
             gap: 15px;
             margin-top: 20px;
-            margin-bottom: 10px;
         }
         
         .social-links a {
@@ -1480,10 +1383,9 @@
                 height: 95%;
             }
             
-            .dropdown-content {
-                right: auto;
-                left: 50%;
-                transform: translateX(-50%);
+            .form-dropdown-content {
+                width: 90vw;
+                right: -10px;
             }
         }
         
@@ -1510,8 +1412,8 @@
                 flex-direction: column;
             }
             
-            .form-container {
-                padding: 30px 20px;
+            .form-dropdown-body {
+                padding: 20px;
             }
             
             .modal-price {
@@ -1529,9 +1431,9 @@
                 font-size: 0.9rem;
             }
             
-            .listing-modal-content {
-                padding: 20px;
-                width: 95%;
+            .form-dropdown-content {
+                width: 95vw;
+                right: -10px;
             }
         }
         
@@ -1590,16 +1492,146 @@
                 </ul>
             </nav>
             
-            <div class="header-actions">
-                <div class="dropdown">
-                    <button class="dropbtn" onclick="toggleDropdown()">
-                        ลงประกาศฟรี <i class="fas fa-chevron-down"></i>
-                    </button>
-                    <div class="dropdown-content" id="listingDropdown">
-                        <a href="#" onclick="openListingModal('sell')"><i class="fas fa-tag"></i> ลงประกาศขาย</a>
-                        <a href="#" onclick="openListingModal('rent')"><i class="fas fa-home"></i> ลงประกาศเช่า</a>
-                        <a href="#" onclick="openListingModal('both')"><i class="fas fa-exchange-alt"></i> ขาย/เช่า</a>
-                        <a href="#" onclick="scrollToSection('properties')"><i class="fas fa-search"></i> ค้นหาบ้าน</a>
+            <div class="header-form-dropdown">
+                <button class="cta-button" id="openFormDropdown">
+                    ลงประกาศฟรี <i class="fas fa-plus"></i>
+                </button>
+                
+                <div class="form-dropdown-content" id="formDropdown">
+                    <div class="form-dropdown-header">
+                        <h3>ลงประกาศขาย/เช่าฟรี</h3>
+                        <button class="close-form-dropdown" id="closeFormDropdown">&times;</button>
+                    </div>
+                    
+                    <div class="form-dropdown-body">
+                        <form id="propertyForm">
+                            <div class="form-row">
+                                <div class="form-group full-width">
+                                    <label for="propertyTitle">ชื่อประกาศ *</label>
+                                    <input type="text" id="propertyTitle" placeholder="เช่น บ้านเดี่ยวหรู 2 ชั้น" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="propertyType">ประเภท *</label>
+                                    <select id="propertyType" required>
+                                        <option value="">เลือกประเภท</option>
+                                        <option value="บ้านเดี่ยว">บ้านเดี่ยว</option>
+                                        <option value="ทาวน์เฮ้าส์">ทาวน์เฮ้าส์</option>
+                                        <option value="คอนโดมิเนียม">คอนโดมิเนียม</option>
+                                        <option value="ที่ดิน">ที่ดิน</option>
+                                        <option value="อาคารพาณิชย์">อาคารพาณิชย์</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="propertyPrice">ราคา (บาท) *</label>
+                                    <input type="number" id="propertyPrice" placeholder="เช่น 5000000" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group full-width">
+                                    <label for="propertyLocation">สถานที่ *</label>
+                                    <input type="text" id="propertyLocation" placeholder="เช่น สุขุมวิท, กรุงเทพฯ" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="propertySize">พื้นที่ใช้สอย (ตร.ม.)</label>
+                                    <input type="number" id="propertySize" placeholder="เช่น 120">
+                                </div>
+                                <div class="form-group">
+                                    <label for="propertyBedrooms">จำนวนห้องนอน</label>
+                                    <select id="propertyBedrooms">
+                                        <option value="0">0 ห้อง</option>
+                                        <option value="1">1 ห้อง</option>
+                                        <option value="2">2 ห้อง</option>
+                                        <option value="3">3 ห้อง</option>
+                                        <option value="4">4 ห้อง</option>
+                                        <option value="5+">5+ ห้อง</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="propertyBathrooms">จำนวนห้องน้ำ</label>
+                                    <select id="propertyBathrooms">
+                                        <option value="1">1 ห้อง</option>
+                                        <option value="2">2 ห้อง</option>
+                                        <option value="3">3 ห้อง</option>
+                                        <option value="4">4 ห้อง</option>
+                                        <option value="5+">5+ ห้อง</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group full-width">
+                                <label for="propertyDescription">รายละเอียด *</label>
+                                <textarea id="propertyDescription" rows="3" placeholder="อธิบายรายละเอียดเกี่ยวกับอสังหาริมทรัพย์ของคุณ..." required></textarea>
+                            </div>
+                            
+                            <div class="form-group full-width">
+                                <label>อัพโหลดรูปภาพ (สูงสุด 6 รูป)</label>
+                                <div class="image-upload-area" id="imageUploadArea">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <p>คลิกเพื่อเลือกรูปภาพ หรือลากไฟล์มาวางที่นี่</p>
+                                    <p style="font-size: 0.8rem; color: var(--gray);">รองรับไฟล์ JPG, PNG, GIF ขนาดไม่เกิน 5MB</p>
+                                </div>
+                                <input type="file" id="imageInput" accept="image/*" multiple style="display: none;">
+                                <div id="image-preview"></div>
+                            </div>
+                            
+                            <!-- Dropdown สำหรับเลือกรูปภาพ 360° -->
+                            <div class="dropdown-container" id="panoramaDropdownContainer">
+                                <label>เลือกรูปภาพสำหรับ 360° Viewer</label>
+                                <div class="dropdown-header" id="panoramaDropdownHeader">
+                                    <span id="panoramaSelected">เลือกรูปภาพจากที่อัพโหลด</span>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="dropdown-options" id="panoramaDropdownOptions">
+                                    <!-- Options will be populated dynamically -->
+                                </div>
+                                <p class="dropdown-hint">เลือกรูปภาพที่อัพโหลดเพื่อใช้เป็นภาพสำหรับมุมมอง 360 องศา</p>
+                            </div>
+                            
+                            <!-- Dropdown สำหรับเลือกรูปภาพสำหรับ 3D Tour -->
+                            <div class="dropdown-container" id="tourDropdownContainer">
+                                <label>เลือกรูปภาพสำหรับ 3D Tour</label>
+                                <div class="dropdown-header" id="tourDropdownHeader">
+                                    <span id="tourSelected">เลือกรูปภาพจากที่อัพโหลด</span>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="dropdown-options" id="tourDropdownOptions">
+                                    <!-- Options will be populated dynamically -->
+                                </div>
+                                <p class="dropdown-hint">เลือกรูปภาพที่อัพโหลดเพื่อใช้ใน 3D Virtual Tour</p>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="contactName">ชื่อผู้ติดต่อ *</label>
+                                    <input type="text" id="contactName" placeholder="ชื่อ-นามสกุล" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="contactPhone">เบอร์โทรศัพท์ *</label>
+                                    <input type="tel" id="contactPhone" placeholder="เช่น 0891234567" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group full-width">
+                                <label for="contactEmail">อีเมล</label>
+                                <input type="email" id="contactEmail" placeholder="เช่น example@email.com">
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="submit" class="submit-btn">
+                                    <i class="fas fa-paper-plane"></i> ลงประกาศฟรี
+                                </button>
+                                <button type="reset" class="reset-btn" id="resetForm">
+                                    <i class="fas fa-redo"></i> ล้างแบบฟอร์ม
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -1664,157 +1696,6 @@
             </div>
         </div>
     </section>
-
-    <!-- Property Listing Modal -->
-    <div class="listing-modal" id="listingModal">
-        <div class="listing-modal-content">
-            <button class="close-listing-modal" id="closeListingModal">&times;</button>
-            
-            <div class="form-section-title">
-                <h2>ลงประกาศขาย/เช่าฟรี</h2>
-                <p>เพิ่มอสังหาริมทรัพย์ของคุณลงในระบบเพื่อให้ผู้ซื้อได้ชมผ่านเทคโนโลยี 3D Virtual Tour</p>
-            </div>
-            
-            <div class="form-container">
-                <form id="propertyForm">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="propertyTitle">ชื่อประกาศ *</label>
-                            <input type="text" id="propertyTitle" placeholder="เช่น บ้านเดี่ยวหรู 2 ชั้น" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="propertyType">ประเภท *</label>
-                            <select id="propertyType" required>
-                                <option value="">เลือกประเภท</option>
-                                <option value="บ้านเดี่ยว">บ้านเดี่ยว</option>
-                                <option value="ทาวน์เฮ้าส์">ทาวน์เฮ้าส์</option>
-                                <option value="คอนโดมิเนียม">คอนโดมิเนียม</option>
-                                <option value="ที่ดิน">ที่ดิน</option>
-                                <option value="อาคารพาณิชย์">อาคารพาณิชย์</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="listingType">ประเภทประกาศ *</label>
-                            <select id="listingType" required>
-                                <option value="ขาย">ขาย</option>
-                                <option value="เช่า">เช่า</option>
-                                <option value="ขาย/เช่า">ขาย/เช่า</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="propertyPrice">ราคา (บาท) *</label>
-                            <input type="number" id="propertyPrice" placeholder="เช่น 5000000" required>
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="propertyLocation">สถานที่ *</label>
-                            <input type="text" id="propertyLocation" placeholder="เช่น สุขุมวิท, กรุงเทพฯ" required>
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="propertySize">พื้นที่ใช้สอย (ตร.ม.)</label>
-                            <input type="number" id="propertySize" placeholder="เช่น 120">
-                        </div>
-                        <div class="form-group">
-                            <label for="propertyBedrooms">จำนวนห้องนอน</label>
-                            <select id="propertyBedrooms">
-                                <option value="0">0 ห้อง</option>
-                                <option value="1">1 ห้อง</option>
-                                <option value="2">2 ห้อง</option>
-                                <option value="3">3 ห้อง</option>
-                                <option value="4">4 ห้อง</option>
-                                <option value="5+">5+ ห้อง</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="propertyBathrooms">จำนวนห้องน้ำ</label>
-                            <select id="propertyBathrooms">
-                                <option value="1">1 ห้อง</option>
-                                <option value="2">2 ห้อง</option>
-                                <option value="3">3 ห้อง</option>
-                                <option value="4">4 ห้อง</option>
-                                <option value="5+">5+ ห้อง</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group full-width">
-                        <label for="propertyDescription">รายละเอียด *</label>
-                        <textarea id="propertyDescription" rows="5" placeholder="อธิบายรายละเอียดเกี่ยวกับอสังหาริมทรัพย์ของคุณ..." required></textarea>
-                    </div>
-                    
-                    <div class="form-group full-width">
-                        <label>อัพโหลดรูปภาพ (สูงสุด 6 รูป)</label>
-                        <div class="image-upload-area" id="imageUploadArea">
-                            <i class="fas fa-cloud-upload-alt"></i>
-                            <p>คลิกเพื่อเลือกรูปภาพ หรือลากไฟล์มาวางที่นี่</p>
-                            <p style="font-size: 0.9rem; color: var(--gray);">รองรับไฟล์ JPG, PNG, GIF ขนาดไม่เกิน 5MB</p>
-                        </div>
-                        <input type="file" id="imageInput" accept="image/*" multiple style="display: none;">
-                        <div id="image-preview"></div>
-                    </div>
-                    
-                    <!-- Dropdown สำหรับเลือกรูปภาพ 360° -->
-                    <div class="dropdown-container" id="panoramaDropdownContainer">
-                        <label>เลือกรูปภาพสำหรับ 360° Viewer</label>
-                        <div class="dropdown-header" id="panoramaDropdownHeader">
-                            <span id="panoramaSelected">เลือกรูปภาพจากที่อัพโหลด</span>
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                        <div class="dropdown-options" id="panoramaDropdownOptions">
-                            <!-- Options will be populated dynamically -->
-                        </div>
-                        <p class="dropdown-hint">เลือกรูปภาพที่อัพโหลดเพื่อใช้เป็นภาพสำหรับมุมมอง 360 องศา</p>
-                    </div>
-                    
-                    <!-- Dropdown สำหรับเลือกรูปภาพสำหรับ 3D Tour -->
-                    <div class="dropdown-container" id="tourDropdownContainer">
-                        <label>เลือกรูปภาพสำหรับ 3D Tour</label>
-                        <div class="dropdown-header" id="tourDropdownHeader">
-                            <span id="tourSelected">เลือกรูปภาพจากที่อัพโหลด</span>
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                        <div class="dropdown-options" id="tourDropdownOptions">
-                            <!-- Options will be populated dynamically -->
-                        </div>
-                        <p class="dropdown-hint">เลือกรูปภาพที่อัพโหลดเพื่อใช้ใน 3D Virtual Tour (ระบบจะสร้างกราฟิก 3D อัตโนมัติ)</p>
-                    </div>
-                    
-                    <div class="form-group full-width">
-                        <label for="contactName">ชื่อผู้ติดต่อ *</label>
-                        <input type="text" id="contactName" placeholder="ชื่อ-นามสกุล" required>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="contactPhone">เบอร์โทรศัพท์ *</label>
-                            <input type="tel" id="contactPhone" placeholder="เช่น 0891234567" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="contactEmail">อีเมล</label>
-                            <input type="email" id="contactEmail" placeholder="เช่น example@email.com">
-                        </div>
-                    </div>
-                    
-                    <div class="form-actions">
-                        <button type="submit" class="submit-btn">
-                            <i class="fas fa-paper-plane"></i> ลงประกาศฟรี
-                        </button>
-                        <button type="reset" class="reset-btn" id="resetForm">
-                            <i class="fas fa-redo"></i> ล้างแบบฟอร์ม
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
 
     <!-- Properties Section -->
     <section class="properties-section" id="properties">
@@ -1914,7 +1795,7 @@
             </div>
             <div class="viewer-body">
                 <div class="panorama-viewer" id="panoramaViewer">
-                    <img class="panorama-image" id="panoramaImage" src="" alt="Panorama View">
+                    <div class="panorama-sphere" id="panoramaSphere"></div>
                 </div>
                 <div class="viewer-instruction">
                     <i class="fas fa-mouse-pointer"></i> ลากเมาส์เพื่อหมุนมุมมอง 360 องศา
@@ -1985,19 +1866,16 @@
                         <a href="#"><i class="fab fa-instagram"></i></a>
                         <a href="#"><i class="fab fa-youtube"></i></a>
                     </div>
-                    <button class="cta-button" onclick="openListingModal('sell')" style="margin-top: 15px;">
-                        ลงประกาศฟรี <i class="fas fa-plus"></i>
-                    </button>
                 </div>
                 
                 <div class="footer-col">
                     <h3>บริการของเรา</h3>
                     <ul>
-                        <li><a href="#" onclick="openListingModal('sell')">ลงประกาศฟรี</a></li>
+                        <li><a href="#" onclick="openFormDropdown()">ลงประกาศฟรี</a></li>
                         <li><a href="#properties">ค้นหาบ้าน</a></li>
-                        <li><a href="#mapSection">แผนที่ค้นหา</a></li>
                         <li><a href="#">3D Virtual Tour</a></li>
                         <li><a href="#">360° View</a></li>
+                        <li><a href="#">ประเมินราคาบ้าน</a></li>
                     </ul>
                 </div>
                 
@@ -2005,7 +1883,7 @@
                     <h3>ลิงก์ด่วน</h3>
                     <ul>
                         <li><a href="#home">หน้าแรก</a></li>
-                        <li><a href="#" onclick="openListingModal('sell')">ลงขายบ้าน</a></li>
+                        <li><a href="#" onclick="openFormDropdown()">ลงขายบ้าน</a></li>
                         <li><a href="#properties">อสังหาริมทรัพย์</a></li>
                         <li><a href="#contact">ติดต่อเรา</a></li>
                         <li><a href="#">ข้อกำหนดการใช้งาน</a></li>
@@ -2117,8 +1995,15 @@
         let selectedPanoramaIndex = -1;
         let selectedTourIndices = [];
 
-        // Listing Type
-        let currentListingType = 'sell';
+        // 360 Viewer Variables
+        let panoramaSphere = null;
+        let isDragging = false;
+        let startX = 0, startY = 0;
+        let currentX = 0, currentY = 0;
+        let rotationX = 0, rotationY = 0;
+        let targetRotationX = 0, targetRotationY = 0;
+        let inertia = 0;
+        let isAnimating = false;
 
         // Initialize Everything
         document.addEventListener('DOMContentLoaded', function() {
@@ -2146,18 +2031,8 @@
             // Add structured data for SEO
             addStructuredData();
             
-            // Close dropdowns when clicking outside
-            window.addEventListener('click', function(event) {
-                if (!event.target.matches('.dropbtn')) {
-                    const dropdowns = document.getElementsByClassName("dropdown-content");
-                    for (let i = 0; i < dropdowns.length; i++) {
-                        const openDropdown = dropdowns[i];
-                        if (openDropdown.classList.contains('show')) {
-                            openDropdown.classList.remove('show');
-                        }
-                    }
-                }
-            });
+            // Initialize 360 viewer animation
+            init360ViewerAnimation();
         });
 
         // Setup Event Listeners
@@ -2199,13 +2074,27 @@
                 });
             });
 
+            // Property Form Dropdown
+            const openFormDropdownBtn = document.getElementById('openFormDropdown');
+            const closeFormDropdownBtn = document.getElementById('closeFormDropdown');
+            const formDropdown = document.getElementById('formDropdown');
+            
+            openFormDropdownBtn.addEventListener('click', openFormDropdown);
+            closeFormDropdownBtn.addEventListener('click', closeFormDropdown);
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.header-form-dropdown') && !formDropdown.contains(e.target)) {
+                    closeFormDropdown();
+                }
+            });
+
             // Property Form Handling
             const propertyForm = document.getElementById('propertyForm');
             const imageUploadArea = document.getElementById('imageUploadArea');
             const imageInput = document.getElementById('imageInput');
             const imagePreview = document.getElementById('image-preview');
             const resetFormBtn = document.getElementById('resetForm');
-            const closeListingModal = document.getElementById('closeListingModal');
             
             // Handle image upload
             imageUploadArea.addEventListener('click', () => {
@@ -2294,11 +2183,6 @@
                 updateDropdownOptions();
             });
             
-            // Close listing modal
-            closeListingModal.addEventListener('click', () => {
-                closeListingModalFunc();
-            });
-            
             // Handle form submission
             propertyForm.addEventListener('submit', (e) => {
                 e.preventDefault();
@@ -2317,7 +2201,6 @@
                     id: Date.now(),
                     title: document.getElementById('propertyTitle').value,
                     type: document.getElementById('propertyType').value,
-                    listingType: document.getElementById('listingType').value,
                     price: formatPrice(document.getElementById('propertyPrice').value),
                     location: document.getElementById('propertyLocation').value,
                     size: document.getElementById('propertySize').value + ' ตร.ม.',
@@ -2371,8 +2254,8 @@
                 // Show success message
                 alert('ประกาศของคุณถูกเพิ่มเรียบร้อยแล้ว!');
                 
-                // Close modal
-                closeListingModalFunc();
+                // Close dropdown
+                closeFormDropdown();
                 
                 // Scroll to properties section
                 scrollToSection('properties');
@@ -2384,22 +2267,21 @@
             document.getElementById('closeTour').addEventListener('click', close3DTour);
 
             // Close modals when clicking outside
-            document.querySelectorAll('.property-modal, .viewer-360-modal, .tour-3d-modal, .listing-modal').forEach(modal => {
+            document.querySelectorAll('.property-modal, .viewer-360-modal, .tour-3d-modal').forEach(modal => {
                 modal.addEventListener('click', (e) => {
                     if (e.target === modal) {
                         if (modal.id === 'propertyModal') closePropertyModal();
                         if (modal.id === 'viewer360Modal') close360Viewer();
                         if (modal.id === 'tour3dModal') close3DTour();
-                        if (modal.id === 'listingModal') closeListingModalFunc();
                     }
                 });
             });
 
             // 360 Viewer controls
-            document.getElementById('panLeft').addEventListener('click', () => pan360View(-50, 0));
-            document.getElementById('panRight').addEventListener('click', () => pan360View(50, 0));
-            document.getElementById('panUp').addEventListener('click', () => pan360View(0, -50));
-            document.getElementById('panDown').addEventListener('click', () => pan360View(0, 50));
+            document.getElementById('panLeft').addEventListener('click', () => pan360View(-30, 0));
+            document.getElementById('panRight').addEventListener('click', () => pan360View(30, 0));
+            document.getElementById('panUp').addEventListener('click', () => pan360View(0, -30));
+            document.getElementById('panDown').addEventListener('click', () => pan360View(0, 30));
             document.getElementById('resetPan').addEventListener('click', resetPanorama);
 
             // 3D Tour controls
@@ -2407,6 +2289,19 @@
             document.getElementById('nextRoom').addEventListener('click', () => changeTourRoom(1));
             document.getElementById('resetTour').addEventListener('click', resetTourView);
             document.getElementById('autoRotate').addEventListener('click', toggleAutoRotate);
+        }
+
+        // Form Dropdown Functions
+        function openFormDropdown() {
+            const formDropdown = document.getElementById('formDropdown');
+            formDropdown.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeFormDropdown() {
+            const formDropdown = document.getElementById('formDropdown');
+            formDropdown.classList.remove('active');
+            document.body.style.overflow = 'auto';
         }
 
         // Dropdown Functions
@@ -2542,54 +2437,6 @@
                     document.getElementById('tourSelected').textContent = 'เลือกรูปภาพจากที่อัพโหลด';
                 }
             }
-        }
-
-        // Header Dropdown Functions
-        function toggleDropdown() {
-            document.getElementById("listingDropdown").classList.toggle("show");
-        }
-        
-        function openListingModal(type) {
-            currentListingType = type;
-            
-            // Set listing type in form
-            document.getElementById('listingType').value = type;
-            
-            // Update modal title based on type
-            let title = "";
-            switch(type) {
-                case 'sell':
-                    title = "ลงประกาศขายฟรี";
-                    break;
-                case 'rent':
-                    title = "ลงประกาศเช่าฟรี";
-                    break;
-                case 'both':
-                    title = "ลงประกาศขาย/เช่าฟรี";
-                    break;
-            }
-            
-            document.querySelector('.form-section-title h2').textContent = title;
-            
-            // Reset form
-            document.getElementById('propertyForm').reset();
-            uploadedImages = [];
-            selectedPanoramaIndex = -1;
-            selectedTourIndices = [];
-            updateImagePreview();
-            updateDropdownOptions();
-            
-            // Show modal
-            document.getElementById('listingModal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-            
-            // Close dropdown
-            document.getElementById("listingDropdown").classList.remove("show");
-        }
-        
-        function closeListingModalFunc() {
-            document.getElementById('listingModal').classList.remove('active');
-            document.body.style.overflow = 'auto';
         }
 
         // Property Management Functions
@@ -2900,96 +2747,155 @@
             }
         }
 
-        // 360 Viewer
-        let panoramaImage = document.getElementById('panoramaImage');
-        let panoramaViewer = document.getElementById('panoramaViewer');
-        let isDragging = false;
-        let startX = 0, startY = 0;
-        let currentX = 0, currentY = 0;
-        let imagePositionX = 0;
+        // 360 Viewer - IMPROVED SMOOTH VERSION
+        function init360ViewerAnimation() {
+            // Animation loop for smooth 360 rotation
+            function animate360Viewer() {
+                if (!isAnimating) {
+                    requestAnimationFrame(animate360Viewer);
+                    return;
+                }
+                
+                // Smoothly interpolate to target rotation
+                rotationX += (targetRotationX - rotationX) * 0.1;
+                rotationY += (targetRotationY - rotationY) * 0.1;
+                
+                // Apply rotation to panorama sphere
+                if (panoramaSphere) {
+                    panoramaSphere.style.transform = `rotateX(${rotationX}deg) rotateY(${rotationY}deg)`;
+                }
+                
+                // Apply inertia
+                if (inertia > 0) {
+                    targetRotationY += inertia;
+                    inertia *= 0.95; // Gradually reduce inertia
+                    if (inertia < 0.01) inertia = 0;
+                }
+                
+                requestAnimationFrame(animate360Viewer);
+            }
+            
+            animate360Viewer();
+        }
         
         function open360Viewer(imageUrl, title) {
             showLoading(true);
             
-            panoramaImage.src = imageUrl;
+            panoramaSphere = document.getElementById('panoramaSphere');
+            panoramaSphere.style.backgroundImage = `url('${imageUrl}')`;
             document.querySelector('.viewer-header h3').textContent = `${title} - มุมมอง 360°`;
             
             // Reset position
-            imagePositionX = 0;
-            panoramaImage.style.transform = `translateX(${imagePositionX}px)`;
+            rotationX = 0;
+            rotationY = 0;
+            targetRotationX = 0;
+            targetRotationY = 0;
+            inertia = 0;
+            
+            // Start animation
+            isAnimating = true;
             
             showLoading(false);
             
             document.getElementById('viewer360Modal').classList.add('active');
             document.body.style.overflow = 'hidden';
+            
+            // Setup mouse/touch events
+            setup360ViewerEvents();
+        }
+        
+        function setup360ViewerEvents() {
+            const panoramaViewer = document.getElementById('panoramaViewer');
+            
+            // Mouse events
+            panoramaViewer.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                startX = e.clientX;
+                startY = e.clientY;
+                panoramaViewer.style.cursor = 'grabbing';
+                inertia = 0; // Reset inertia when user starts dragging
+            });
+            
+            document.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                
+                currentX = e.clientX;
+                currentY = e.clientY;
+                
+                const deltaX = currentX - startX;
+                const deltaY = currentY - startY;
+                
+                // Update target rotation based on mouse movement
+                targetRotationY += deltaX * 0.3;
+                targetRotationX += deltaY * 0.3;
+                
+                // Store inertia for smooth continuation
+                inertia = deltaX * 0.05;
+                
+                startX = currentX;
+                startY = currentY;
+            });
+            
+            document.addEventListener('mouseup', () => {
+                isDragging = false;
+                panoramaViewer.style.cursor = 'grab';
+            });
+            
+            // Touch events for mobile
+            panoramaViewer.addEventListener('touchstart', (e) => {
+                isDragging = true;
+                startX = e.touches[0].clientX;
+                startY = e.touches[0].clientY;
+                inertia = 0;
+                e.preventDefault();
+            });
+            
+            panoramaViewer.addEventListener('touchmove', (e) => {
+                if (!isDragging) return;
+                
+                currentX = e.touches[0].clientX;
+                currentY = e.touches[0].clientY;
+                
+                const deltaX = currentX - startX;
+                const deltaY = currentY - startY;
+                
+                targetRotationY += deltaX * 0.3;
+                targetRotationX += deltaY * 0.3;
+                
+                inertia = deltaX * 0.05;
+                
+                startX = currentX;
+                startY = currentY;
+                e.preventDefault();
+            });
+            
+            panoramaViewer.addEventListener('touchend', () => {
+                isDragging = false;
+            });
+        }
+        
+        function pan360View(deltaX, deltaY) {
+            targetRotationY += deltaX;
+            targetRotationX += deltaY;
+        }
+        
+        function resetPanorama() {
+            targetRotationX = 0;
+            targetRotationY = 0;
+            inertia = 0;
         }
         
         function close360Viewer() {
             document.getElementById('viewer360Modal').classList.remove('active');
             document.body.style.overflow = 'auto';
-        }
-        
-        // Panorama dragging
-        panoramaViewer.addEventListener('mousedown', (e) => {
-            isDragging = true;
-            startX = e.clientX;
-            startY = e.clientY;
-            panoramaViewer.style.cursor = 'grabbing';
-        });
-        
-        panoramaViewer.addEventListener('mousemove', (e) => {
-            if (!isDragging) return;
+            isAnimating = false;
             
-            currentX = e.clientX;
-            const deltaX = currentX - startX;
-            imagePositionX += deltaX * 0.3;
-            
-            panoramaImage.style.transform = `translateX(${imagePositionX}px)`;
-            startX = currentX;
-        });
-        
-        panoramaViewer.addEventListener('mouseup', () => {
-            isDragging = false;
+            // Clean up event listeners
+            const panoramaViewer = document.getElementById('panoramaViewer');
             panoramaViewer.style.cursor = 'grab';
-        });
-        
-        panoramaViewer.addEventListener('mouseleave', () => {
-            isDragging = false;
-            panoramaViewer.style.cursor = 'grab';
-        });
-        
-        // Touch events for mobile
-        panoramaViewer.addEventListener('touchstart', (e) => {
-            isDragging = true;
-            startX = e.touches[0].clientX;
-        });
-        
-        panoramaViewer.addEventListener('touchmove', (e) => {
-            if (!isDragging) return;
-            
-            currentX = e.touches[0].clientX;
-            const deltaX = currentX - startX;
-            imagePositionX += deltaX * 0.3;
-            
-            panoramaImage.style.transform = `translateX(${imagePositionX}px)`;
-            startX = currentX;
-        });
-        
-        panoramaViewer.addEventListener('touchend', () => {
-            isDragging = false;
-        });
-        
-        function pan360View(deltaX, deltaY) {
-            imagePositionX += deltaX;
-            panoramaImage.style.transform = `translateX(${imagePositionX}px)`;
-        }
-        
-        function resetPanorama() {
-            imagePositionX = 0;
-            panoramaImage.style.transform = `translateX(${imagePositionX}px)`;
         }
 
-        // 3D Tour System
+        // 3D Tour System - IMPROVED WITH REALISTIC MODEL
         function init3DTourSystem() {
             // Scene setup will be done when opening tour
         }
@@ -3027,11 +2933,12 @@
             
             // Create camera
             tourCamera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
-            tourCamera.position.z = 5;
+            tourCamera.position.set(0, 2, 5);
             
             // Create renderer
-            tourRenderer = new THREE.WebGLRenderer({ antialias: true });
+            tourRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
             tourRenderer.setSize(container.clientWidth, container.clientHeight);
+            tourRenderer.setClearColor(0x1a1a1a, 1);
             container.appendChild(tourRenderer.domElement);
             
             // Add controls
@@ -3039,8 +2946,11 @@
             tourControls.enableDamping = true;
             tourControls.dampingFactor = 0.05;
             tourControls.enableZoom = true;
-            tourControls.enablePan = true;
+            tourControls.enablePan = false;
             tourControls.autoRotate = false;
+            tourControls.maxPolarAngle = Math.PI / 2;
+            tourControls.minDistance = 1;
+            tourControls.maxDistance = 10;
             
             // Add lighting
             const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
@@ -3050,6 +2960,9 @@
             directionalLight.position.set(10, 20, 15);
             tourScene.add(directionalLight);
             
+            // Add a simple room structure
+            createRoomStructure();
+            
             // Handle window resize
             window.addEventListener('resize', onTourWindowResize);
             
@@ -3057,37 +2970,321 @@
             animateTour();
         }
         
+        function createRoomStructure() {
+            // Create floor
+            const floorGeometry = new THREE.PlaneGeometry(10, 10);
+            const floorMaterial = new THREE.MeshStandardMaterial({ 
+                color: 0x888888,
+                roughness: 0.8
+            });
+            const floor = new THREE.Mesh(floorGeometry, floorMaterial);
+            floor.rotation.x = -Math.PI / 2;
+            floor.position.y = -0.5;
+            tourScene.add(floor);
+            
+            // Create walls
+            const wallGeometry = new THREE.BoxGeometry(10, 5, 0.2);
+            const wallMaterial = new THREE.MeshStandardMaterial({ 
+                color: 0xf0f0f0,
+                roughness: 0.7
+            });
+            
+            // Back wall
+            const backWall = new THREE.Mesh(wallGeometry, wallMaterial);
+            backWall.position.z = -5;
+            backWall.position.y = 2;
+            tourScene.add(backWall);
+            
+            // Left wall
+            const leftWall = new THREE.Mesh(wallGeometry, wallMaterial);
+            leftWall.rotation.y = Math.PI / 2;
+            leftWall.position.x = -5;
+            leftWall.position.y = 2;
+            tourScene.add(leftWall);
+            
+            // Right wall
+            const rightWall = new THREE.Mesh(wallGeometry, wallMaterial);
+            rightWall.rotation.y = Math.PI / 2;
+            rightWall.position.x = 5;
+            rightWall.position.y = 2;
+            tourScene.add(rightWall);
+            
+            // Ceiling
+            const ceilingGeometry = new THREE.PlaneGeometry(10, 10);
+            const ceilingMaterial = new THREE.MeshStandardMaterial({ 
+                color: 0xffffff,
+                roughness: 0.9
+            });
+            const ceiling = new THREE.Mesh(ceilingGeometry, ceilingMaterial);
+            ceiling.rotation.x = Math.PI / 2;
+            ceiling.position.y = 4.5;
+            tourScene.add(ceiling);
+        }
+        
         function loadRoomImage(roomIndex) {
-            // Clear existing objects
-            while(tourScene.children.length > 0) { 
-                tourScene.remove(tourScene.children[0]); 
-            }
+            // Remove existing image frames
+            const existingFrames = tourScene.children.filter(child => child.userData && child.userData.isImageFrame);
+            existingFrames.forEach(frame => tourScene.remove(frame));
             
-            // Add lighting back
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
-            tourScene.add(ambientLight);
+            if (roomIndex < 0 || roomIndex >= tourImages.length) return;
             
-            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-            directionalLight.position.set(10, 20, 15);
-            tourScene.add(directionalLight);
-            
-            // Create sphere for panoramic view
-            const geometry = new THREE.SphereGeometry(500, 60, 40);
-            geometry.scale(-1, 1, 1); // Invert the sphere to see inside
-            
+            // Create a frame for the image
             const textureLoader = new THREE.TextureLoader();
             textureLoader.load(tourImages[roomIndex], function(texture) {
-                const material = new THREE.MeshBasicMaterial({
-                    map: texture
+                // Create image plane
+                const aspectRatio = texture.image.width / texture.image.height;
+                const planeWidth = 4;
+                const planeHeight = planeWidth / aspectRatio;
+                
+                const planeGeometry = new THREE.PlaneGeometry(planeWidth, planeHeight);
+                const planeMaterial = new THREE.MeshBasicMaterial({
+                    map: texture,
+                    side: THREE.DoubleSide
                 });
                 
-                const sphere = new THREE.Mesh(geometry, material);
-                tourScene.add(sphere);
+                const imagePlane = new THREE.Mesh(planeGeometry, planeMaterial);
+                imagePlane.position.set(0, 1.5, -4.8); // Place on back wall
+                imagePlane.userData.isImageFrame = true;
+                tourScene.add(imagePlane);
                 
-                // Reset camera position
-                tourCamera.position.set(0, 0, 0.1);
-                tourControls.reset();
+                // Add a frame around the image
+                const frameGeometry = new THREE.BoxGeometry(planeWidth + 0.2, planeHeight + 0.2, 0.1);
+                const frameMaterial = new THREE.MeshStandardMaterial({ 
+                    color: 0x8B4513, // Wood color
+                    roughness: 0.5
+                });
+                
+                const frame = new THREE.Mesh(frameGeometry, frameMaterial);
+                frame.position.copy(imagePlane.position);
+                frame.position.z += 0.05; // Slightly in front of the image
+                frame.userData.isImageFrame = true;
+                tourScene.add(frame);
+                
+                // Add some decorative elements
+                addRoomFurniture(roomIndex);
             });
+        }
+        
+        function addRoomFurniture(roomIndex) {
+            // Add different furniture based on room index
+            if (roomIndex === 0) {
+                // Living room furniture
+                addSofa();
+                addCoffeeTable();
+                addTV();
+            } else if (roomIndex === 1) {
+                // Bedroom furniture
+                addBed();
+                addNightstand();
+            } else if (roomIndex === 2) {
+                // Kitchen furniture
+                addKitchenCabinet();
+                addDiningTable();
+            } else {
+                // Default furniture
+                addChair();
+                addTable();
+            }
+        }
+        
+        function addSofa() {
+            const sofaGeometry = new THREE.BoxGeometry(3, 1, 1);
+            const sofaMaterial = new THREE.MeshStandardMaterial({ 
+                color: 0x8B4513,
+                roughness: 0.8
+            });
+            const sofa = new THREE.Mesh(sofaGeometry, sofaMaterial);
+            sofa.position.set(-2, 0, -2);
+            sofa.rotation.y = Math.PI / 4;
+            tourScene.add(sofa);
+        }
+        
+        function addCoffeeTable() {
+            const tableTopGeometry = new THREE.BoxGeometry(1.5, 0.1, 1);
+            const tableTopMaterial = new THREE.MeshStandardMaterial({ 
+                color: 0x8B4513,
+                roughness: 0.6
+            });
+            const tableTop = new THREE.Mesh(tableTopGeometry, tableTopMaterial);
+            tableTop.position.set(0, 0.5, -2);
+            tourScene.add(tableTop);
+            
+            // Table legs
+            const legGeometry = new THREE.BoxGeometry(0.1, 0.5, 0.1);
+            const legPositions = [
+                [0.7, 0.25, 0.45],
+                [-0.7, 0.25, 0.45],
+                [0.7, 0.25, -0.45],
+                [-0.7, 0.25, -0.45]
+            ];
+            
+            legPositions.forEach(pos => {
+                const leg = new THREE.Mesh(legGeometry, tableTopMaterial);
+                leg.position.set(pos[0], pos[1], pos[2]);
+                tourScene.add(leg);
+            });
+        }
+        
+        function addTV() {
+            const tvGeometry = new THREE.BoxGeometry(2, 1.2, 0.1);
+            const tvMaterial = new THREE.MeshStandardMaterial({ 
+                color: 0x222222,
+                roughness: 0.3,
+                metalness: 0.7
+            });
+            const tv = new THREE.Mesh(tvGeometry, tvMaterial);
+            tv.position.set(3, 1.5, -4.8);
+            tourScene.add(tv);
+            
+            // TV screen
+            const screenGeometry = new THREE.PlaneGeometry(1.8, 1);
+            const screenMaterial = new THREE.MeshBasicMaterial({ 
+                color: 0x0000ff,
+                transparent: true,
+                opacity: 0.5
+            });
+            const screen = new THREE.Mesh(screenGeometry, screenMaterial);
+            screen.position.set(3, 1.5, -4.71);
+            tourScene.add(screen);
+        }
+        
+        function addBed() {
+            const bedGeometry = new THREE.BoxGeometry(3, 0.5, 2);
+            const bedMaterial = new THREE.MeshStandardMaterial({ 
+                color: 0x4169E1,
+                roughness: 0.8
+            });
+            const bed = new THREE.Mesh(bedGeometry, bedMaterial);
+            bed.position.set(0, 0, -2);
+            tourScene.add(bed);
+            
+            // Bed headboard
+            const headboardGeometry = new THREE.BoxGeometry(3.2, 1, 0.2);
+            const headboard = new THREE.Mesh(headboardGeometry, bedMaterial);
+            headboard.position.set(0, 0.5, -3);
+            tourScene.add(headboard);
+        }
+        
+        function addNightstand() {
+            const nightstandGeometry = new THREE.BoxGeometry(0.8, 1, 0.8);
+            const nightstandMaterial = new THREE.MeshStandardMaterial({ 
+                color: 0x8B4513,
+                roughness: 0.6
+            });
+            const nightstand = new THREE.Mesh(nightstandGeometry, nightstandMaterial);
+            nightstand.position.set(2, 0, -2);
+            tourScene.add(nightstand);
+            
+            // Lamp on nightstand
+            const lampBaseGeometry = new THREE.CylinderGeometry(0.1, 0.15, 0.1, 8);
+            const lampBaseMaterial = new THREE.MeshStandardMaterial({ 
+                color: 0x888888,
+                metalness: 0.8,
+                roughness: 0.2
+            });
+            const lampBase = new THREE.Mesh(lampBaseGeometry, lampBaseMaterial);
+            lampBase.position.set(2, 1.1, -2);
+            tourScene.add(lampBase);
+            
+            const lampShadeGeometry = new THREE.ConeGeometry(0.3, 0.4, 8);
+            const lampShadeMaterial = new THREE.MeshStandardMaterial({ 
+                color: 0xf5f5dc,
+                roughness: 0.9
+            });
+            const lampShade = new THREE.Mesh(lampShadeGeometry, lampShadeMaterial);
+            lampShade.position.set(2, 1.4, -2);
+            tourScene.add(lampShade);
+        }
+        
+        function addKitchenCabinet() {
+            const cabinetGeometry = new THREE.BoxGeometry(4, 3, 0.5);
+            const cabinetMaterial = new THREE.MeshStandardMaterial({ 
+                color: 0xf5f5dc,
+                roughness: 0.7
+            });
+            const cabinet = new THREE.Mesh(cabinetGeometry, cabinetMaterial);
+            cabinet.position.set(0, 1.5, -4.8);
+            tourScene.add(cabinet);
+        }
+        
+        function addDiningTable() {
+            const tableGeometry = new THREE.CylinderGeometry(0.8, 0.8, 0.05, 16);
+            const tableMaterial = new THREE.MeshStandardMaterial({ 
+                color: 0x8B4513,
+                roughness: 0.6
+            });
+            const table = new THREE.Mesh(tableGeometry, tableMaterial);
+            table.position.set(0, 0.5, 0);
+            tourScene.add(table);
+            
+            // Table legs
+            const legGeometry = new THREE.CylinderGeometry(0.05, 0.05, 0.5, 8);
+            const legPositions = [
+                [0.6, 0.25, 0.6],
+                [-0.6, 0.25, 0.6],
+                [0.6, 0.25, -0.6],
+                [-0.6, 0.25, -0.6]
+            ];
+            
+            legPositions.forEach(pos => {
+                const leg = new THREE.Mesh(legGeometry, tableMaterial);
+                leg.position.set(pos[0], pos[1], pos[2]);
+                tourScene.add(leg);
+            });
+            
+            // Add chairs
+            for (let i = 0; i < 4; i++) {
+                const angle = (i * Math.PI) / 2;
+                const chairX = Math.cos(angle) * 1.2;
+                const chairZ = Math.sin(angle) * 1.2;
+                addChair(chairX, 0.3, chairZ, angle);
+            }
+        }
+        
+        function addChair(x = 1, y = 0, z = 1, rotation = 0) {
+            const chairSeatGeometry = new THREE.BoxGeometry(0.5, 0.1, 0.5);
+            const chairMaterial = new THREE.MeshStandardMaterial({ 
+                color: 0x8B4513,
+                roughness: 0.6
+            });
+            const chairSeat = new THREE.Mesh(chairSeatGeometry, chairMaterial);
+            chairSeat.position.set(x, y, z);
+            chairSeat.rotation.y = rotation;
+            tourScene.add(chairSeat);
+            
+            // Chair back
+            const chairBackGeometry = new THREE.BoxGeometry(0.5, 0.8, 0.1);
+            const chairBack = new THREE.Mesh(chairBackGeometry, chairMaterial);
+            chairBack.position.set(x, y + 0.45, z + (Math.cos(rotation) * 0.3));
+            chairBack.rotation.y = rotation;
+            tourScene.add(chairBack);
+            
+            // Chair legs
+            const legGeometry = new THREE.CylinderGeometry(0.03, 0.03, 0.3, 8);
+            const legPositions = [
+                [x + 0.2, y - 0.15, z + 0.2],
+                [x - 0.2, y - 0.15, z + 0.2],
+                [x + 0.2, y - 0.15, z - 0.2],
+                [x - 0.2, y - 0.15, z - 0.2]
+            ];
+            
+            legPositions.forEach(pos => {
+                const leg = new THREE.Mesh(legGeometry, chairMaterial);
+                leg.position.set(pos[0], pos[1], pos[2]);
+                leg.rotation.y = rotation;
+                tourScene.add(leg);
+            });
+        }
+        
+        function addTable() {
+            const tableGeometry = new THREE.BoxGeometry(1, 0.1, 1);
+            const tableMaterial = new THREE.MeshStandardMaterial({ 
+                color: 0x8B4513,
+                roughness: 0.6
+            });
+            const table = new THREE.Mesh(tableGeometry, tableMaterial);
+            table.position.set(0, 0.5, 0);
+            tourScene.add(table);
         }
         
         function changeTourRoom(direction) {
@@ -3103,7 +3300,7 @@
         }
         
         function resetTourView() {
-            tourCamera.position.set(0, 0, 0.1);
+            tourCamera.position.set(0, 2, 5);
             tourControls.reset();
         }
         
@@ -3234,7 +3431,6 @@
                 id: Date.now(),
                 title: "บ้านตัวอย่างใหม่ สวยงาม",
                 type: "บ้านเดี่ยว",
-                listingType: "ขาย",
                 price: formatPrice(Math.floor(Math.random() * 10000000) + 3000000),
                 location: "ทำเลตัวอย่าง, กรุงเทพฯ",
                 size: Math.floor(Math.random() * 200) + 100 + " ตร.ม.",
