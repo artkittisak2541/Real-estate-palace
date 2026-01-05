@@ -22,11 +22,8 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     
     <!-- Google Maps API -->
-    <script
-  src="https://maps.googleapis.com/maps/api/js?key=YOUR_NEW_KEY&libraries=places&language=th&region=TH"
-  defer
-></script>
-
+    <!-- ใส่ API Key ของคุณที่นี่ หรือใช้วิธีการที่ปลอดภัยกว่า -->
+    <!-- ทางเลือก: ใช้ OpenStreetMap แทน Google Maps เพื่อหลีกเลี่ยงปัญหา API Key -->
     
     <style>
         :root {
@@ -537,7 +534,7 @@
             margin-top: 5px;
         }
         
-        /* Google Maps in Form */
+        /* Google Maps Alternative - ใช้ OpenStreetMap แทน */
         .map-container-form {
             margin: 15px 0;
             border-radius: 10px;
@@ -586,6 +583,22 @@
             color: var(--gray);
             text-align: center;
             margin-top: 5px;
+        }
+        
+        .manual-coordinates-btn {
+            background-color: var(--secondary);
+            color: var(--dark);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .manual-coordinates-btn:hover {
+            background-color: #d4a620;
         }
         
         /* Properties Section */
@@ -1594,29 +1607,33 @@
                             
                             <!-- ส่วนที่อยู่และแผนที่ -->
                             <div class="form-group full-width">
-                                <label for="propertyAddress">ค้นหาที่อยู่ *</label>
+                                <label for="propertyAddress">ที่อยู่ *</label>
                                 <div class="address-search-container">
-                                    <i class="fas fa-search"></i>
-                                    <input type="text" id="propertyAddress" placeholder="พิมพ์ที่อยู่หรือชื่อสถานที่..." required>
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <input type="text" id="propertyAddress" placeholder="กรุณากรอกที่อยู่ให้ครบถ้วน..." required>
                                 </div>
                             </div>
                             
+                            <!-- แผนที่แบบธรรมดา (ใช้ OpenStreetMap แทน Google Maps) -->
                             <div class="form-group full-width">
                                 <label>ตำแหน่งบนแผนที่</label>
                                 <div class="map-container-form">
                                     <div id="form-map"></div>
                                 </div>
-                                <p class="map-hint">คลิกและลากเครื่องหมายเพื่อปรับตำแหน่งที่อยู่</p>
+                                <button type="button" class="manual-coordinates-btn" id="manualLocationBtn">
+                                    <i class="fas fa-map-pin"></i> กำหนดตำแหน่งด้วยตนเอง
+                                </button>
+                                <p class="map-hint">คลิกบนแผนที่เพื่อกำหนดตำแหน่งที่อยู่</p>
                             </div>
                             
                             <div class="coordinates-display">
                                 <div class="form-group">
                                     <label for="propertyLat">ละติจูด</label>
-                                    <input type="text" id="propertyLat" readonly>
+                                    <input type="text" id="propertyLat" value="13.7563" readonly>
                                 </div>
                                 <div class="form-group">
                                     <label for="propertyLng">ลองจิจูด</label>
-                                    <input type="text" id="propertyLng" readonly>
+                                    <input type="text" id="propertyLng" value="100.5018" readonly>
                                 </div>
                             </div>
                             
@@ -2088,11 +2105,9 @@
         let inertia = 0;
         let isAnimating = false;
 
-        // Google Maps Variables
+        // Map Variables
         let formMap = null;
         let formMapMarker = null;
-        let autocomplete = null;
-        let formMapInitialized = false;
 
         // Initialize Everything
         document.addEventListener('DOMContentLoaded', function() {
@@ -2122,9 +2137,6 @@
             
             // Initialize 360 viewer animation
             init360ViewerAnimation();
-            
-            // Initialize form map when form is opened
-            initFormMap();
         });
 
         // Setup Event Listeners
@@ -2187,7 +2199,7 @@
             const imageInput = document.getElementById('imageInput');
             const imagePreview = document.getElementById('image-preview');
             const resetFormBtn = document.getElementById('resetForm');
-            const propertyAddressInput = document.getElementById('propertyAddress');
+            const manualLocationBtn = document.getElementById('manualLocationBtn');
             
             // Handle image upload
             imageUploadArea.addEventListener('click', () => {
@@ -2267,6 +2279,28 @@
             // Initialize dropdowns
             initDropdowns();
             
+            // Manual location button
+            manualLocationBtn.addEventListener('click', () => {
+                const lat = prompt('กรุณากรอกละติจูด (เช่น 13.7563):', '13.7563');
+                const lng = prompt('กรุณากรอกลองจิจูด (เช่น 100.5018):', '100.5018');
+                
+                if (lat && lng) {
+                    document.getElementById('propertyLat').value = lat;
+                    document.getElementById('propertyLng').value = lng;
+                    
+                    // Update map if it exists
+                    if (formMap) {
+                        const newLatLng = [parseFloat(lat), parseFloat(lng)];
+                        formMap.setView(newLatLng, 15);
+                        if (formMapMarker) {
+                            formMapMarker.setLatLng(newLatLng);
+                        } else {
+                            formMapMarker = L.marker(newLatLng).addTo(formMap);
+                        }
+                    }
+                }
+            });
+            
             // Reset form
             resetFormBtn.addEventListener('click', () => {
                 uploadedImages = [];
@@ -2276,10 +2310,11 @@
                 updateDropdownOptions();
                 
                 // Reset map position
-                if (formMap && formMapMarker) {
-                    formMap.setCenter({lat: 13.7563, lng: 100.5018});
-                    formMap.setZoom(12);
-                    formMapMarker.setPosition({lat: 13.7563, lng: 100.5018});
+                if (formMap) {
+                    formMap.setView([13.7563, 100.5018], 12);
+                    if (formMapMarker) {
+                        formMapMarker.setLatLng([13.7563, 100.5018]);
+                    }
                     document.getElementById('propertyLat').value = '13.7563';
                     document.getElementById('propertyLng').value = '100.5018';
                 }
@@ -2365,10 +2400,11 @@
                 updateDropdownOptions();
                 
                 // Reset map position
-                if (formMap && formMapMarker) {
-                    formMap.setCenter({lat: 13.7563, lng: 100.5018});
-                    formMap.setZoom(12);
-                    formMapMarker.setPosition({lat: 13.7563, lng: 100.5018});
+                if (formMap) {
+                    formMap.setView([13.7563, 100.5018], 12);
+                    if (formMapMarker) {
+                        formMapMarker.setLatLng([13.7563, 100.5018]);
+                    }
                     document.getElementById('propertyLat').value = '13.7563';
                     document.getElementById('propertyLng').value = '100.5018';
                 }
@@ -2422,7 +2458,7 @@
             document.body.style.overflow = 'hidden';
             
             // Initialize form map if not already initialized
-            if (!formMapInitialized) {
+            if (!formMap) {
                 initFormMap();
             }
         }
@@ -2433,83 +2469,40 @@
             document.body.style.overflow = 'auto';
         }
 
-        // Initialize Form Map with Google Maps
+        // Initialize Form Map with Leaflet (OpenStreetMap)
         function initFormMap() {
             // Default center (Bangkok)
-            const defaultCenter = {lat: 13.7563, lng: 100.5018};
+            const defaultCenter = [13.7563, 100.5018];
             
             // Create map
             const mapElement = document.getElementById('form-map');
-            formMap = new google.maps.Map(mapElement, {
-                center: defaultCenter,
-                zoom: 12,
-                mapTypeControl: false,
-                streetViewControl: false,
-                fullscreenControl: false,
-                styles: [
-                    {
-                        featureType: "poi",
-                        elementType: "labels",
-                        stylers: [{ visibility: "off" }]
-                    }
-                ]
-            });
+            formMap = L.map(mapElement).setView(defaultCenter, 12);
+            
+            // Add tile layer
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(formMap);
             
             // Create marker
-            formMapMarker = new google.maps.Marker({
-                position: defaultCenter,
-                map: formMap,
+            formMapMarker = L.marker(defaultCenter, {
                 draggable: true,
                 title: "ลากเพื่อปรับตำแหน่ง"
-            });
+            }).addTo(formMap);
             
             // Update coordinates when marker is dragged
-            google.maps.event.addListener(formMapMarker, 'dragend', function() {
-                const position = formMapMarker.getPosition();
-                updateCoordinates(position.lat(), position.lng());
+            formMapMarker.on('dragend', function() {
+                const position = formMapMarker.getLatLng();
+                updateCoordinates(position.lat, position.lng);
             });
             
             // Update coordinates when map is clicked
-            google.maps.event.addListener(formMap, 'click', function(event) {
-                formMapMarker.setPosition(event.latLng);
-                updateCoordinates(event.latLng.lat(), event.latLng.lng());
-            });
-            
-            // Initialize autocomplete for address search
-            autocomplete = new google.maps.places.Autocomplete(
-                document.getElementById('propertyAddress'),
-                {
-                    types: ['geocode'],
-                    componentRestrictions: {country: 'th'}
-                }
-            );
-            
-            // When a place is selected from autocomplete
-            autocomplete.addListener('place_changed', function() {
-                const place = autocomplete.getPlace();
-                if (!place.geometry) {
-                    alert("ไม่พบที่อยู่: '" + place.name + "'");
-                    return;
-                }
-                
-                // Move map to selected location
-                formMap.setCenter(place.geometry.location);
-                formMap.setZoom(16);
-                
-                // Update marker position
-                formMapMarker.setPosition(place.geometry.location);
-                
-                // Update coordinates
-                updateCoordinates(
-                    place.geometry.location.lat(),
-                    place.geometry.location.lng()
-                );
+            formMap.on('click', function(event) {
+                formMapMarker.setLatLng(event.latlng);
+                updateCoordinates(event.latlng.lat, event.latlng.lng);
             });
             
             // Initialize coordinates
-            updateCoordinates(defaultCenter.lat, defaultCenter.lng);
-            
-            formMapInitialized = true;
+            updateCoordinates(defaultCenter[0], defaultCenter[1]);
         }
         
         function updateCoordinates(lat, lng) {
